@@ -57,7 +57,7 @@
         <div>
           <label class="font-bold text-amber-400 block mb-1 uppercase">Master Verification Mobile Number</label>
           <input type="tel" id="setup-phone" required placeholder="10-digit Phone" class="glass-input w-full px-3.5 py-2 rounded-xl border-amber-500/30" />
-          <p class="text-[10px] text-slate-400 mt-1">Kisi bhi naye device me master panel kholne ke liye isi number se verification hogi.</p>
+          <p class="text-[10px] text-slate-400 mt-1">Naye device me Master Admin register karne ke liye isi number se verify hoga.</p>
         </div>
         <div>
           <label class="font-bold text-slate-400 block mb-1 uppercase">City / Branch</label>
@@ -80,25 +80,48 @@
     </div>
   </div>
 
-  <!-- ================= SCREEN 2: LOGIN PORTAL ================= -->
+  <!-- ================= SCREEN 2: LOGIN PORTAL (ROLE TOGGLE + DEVICE ID OPTION) ================= -->
   <div id="login-section" class="hidden min-h-screen flex items-center justify-center p-4">
-    <div class="glass-box w-full max-w-sm rounded-2xl p-7">
-      <div class="text-center mb-6">
+    <div class="glass-box w-full max-w-sm rounded-2xl p-7 relative">
+      <div class="text-center mb-5">
         <h1 class="text-xl font-black text-white uppercase tracking-wider">Hemant Team Management</h1>
-        <p class="text-xs text-slate-400 mt-1">Authorized Login</p>
+        <p class="text-xs text-slate-400 mt-1">Select Portal & Authorized Login</p>
       </div>
+
+      <!-- Role Selector Toggle -->
+      <div class="glass-input p-1 rounded-xl flex gap-1 text-xs font-bold mb-4">
+        <button type="button" id="role-select-member" onclick="setLoginRole('member')" class="flex-1 py-2 rounded-lg transition tab-active flex items-center justify-center gap-1">
+          <i data-lucide="user" class="w-3.5 h-3.5"></i> Member Login
+        </button>
+        <button type="button" id="role-select-admin" onclick="setLoginRole('admin')" class="flex-1 py-2 rounded-lg transition text-slate-400 flex items-center justify-center gap-1">
+          <i data-lucide="shield" class="w-3.5 h-3.5"></i> Master Admin
+        </button>
+      </div>
+
+      <!-- Current Device ID Pill -->
+      <div class="mb-4 p-2.5 rounded-xl glass-input flex items-center justify-between text-[11px]">
+        <div>
+          <span class="text-slate-400 block text-[9px] uppercase font-bold">This Device Hardware ID:</span>
+          <span id="login-device-fingerprint" class="font-mono text-blue-400 font-bold">DEV_UNKNOWN</span>
+        </div>
+        <button type="button" onclick="copyCurrentDeviceId()" class="px-2 py-1 glass-box hover:bg-white/10 text-slate-300 rounded text-[10px] flex items-center gap-1">
+          <i data-lucide="copy" class="w-3 h-3"></i> Copy
+        </button>
+      </div>
+
       <div id="login-error" class="hidden mb-3 p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs text-center font-medium"></div>
-      <form id="login-form" class="space-y-3.5 text-xs">
+
+      <form id="login-form" class="space-y-3 text-xs">
         <div>
           <label class="font-bold text-slate-400 block mb-1 uppercase">User ID</label>
-          <input type="text" id="login-username" required placeholder="ID daalein" class="glass-input w-full px-3.5 py-2.5 rounded-xl" />
+          <input type="text" id="login-username" required placeholder="User ID daalein" class="glass-input w-full px-3.5 py-2.5 rounded-xl" />
         </div>
         <div>
           <label class="font-bold text-slate-400 block mb-1 uppercase">Password</label>
           <input type="password" id="login-password" required placeholder="••••••" class="glass-input w-full px-3.5 py-2.5 rounded-xl" />
         </div>
-        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition mt-2">
-          Login Portal
+        <button type="submit" id="login-submit-btn" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition mt-2">
+          Member Portal Login
         </button>
       </form>
     </div>
@@ -126,18 +149,21 @@
     <main id="dynamic-role-container" class="pt-4"></main>
   </div>
 
-  <!-- ================= MODAL: MASTER DEVICE VERIFICATION ================= -->
+  <!-- ================= MODAL: MASTER DEVICE REGISTRATION (OTP / NUMBER VERIFY) ================= -->
   <div id="master-number-verify-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="glass-box max-w-sm w-full p-6 rounded-2xl text-center space-y-4 border border-amber-500/30">
       <div class="h-12 w-12 bg-amber-500/20 border border-amber-500/40 rounded-2xl flex items-center justify-center mx-auto text-amber-400">
         <i data-lucide="smartphone" class="w-6 h-6"></i>
       </div>
-      <h3 class="text-sm font-black text-white uppercase tracking-wider">Device Registration Required</h3>
-      <p class="text-xs text-slate-300">Yeh device Master Portal ke liye registered nahi hai. Is device ko authorize karne ke liye apna <strong>Master Verification Mobile Number</strong> daalein:</p>
+      <h3 class="text-sm font-black text-white uppercase tracking-wider">Register Master Device</h3>
+      <p class="text-xs text-slate-300">Yeh naya device Master Portal ke liye authorize nahi hai. Apna registered <strong>Master Mobile Number</strong> daal kar is device ko bind karein:</p>
+      <div class="p-2 rounded-xl glass-input text-[11px] font-mono text-slate-300">
+        Device ID: <span id="verify-modal-device-id" class="text-amber-400 font-bold"></span>
+      </div>
       <input type="tel" id="entered-master-phone" placeholder="Registered 10-digit number" class="glass-input w-full p-2.5 rounded-xl text-center text-sm font-mono tracking-wider text-amber-300" />
       <div class="flex gap-2 pt-1">
         <button onclick="closeModal('master-number-verify-modal')" class="flex-1 py-2 glass-box rounded-xl text-xs">Cancel</button>
-        <button onclick="confirmMasterDeviceUnlock()" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs">Verify & Register</button>
+        <button onclick="confirmMasterDeviceUnlock()" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs">Verify & Bind Device</button>
       </div>
     </div>
   </div>
@@ -158,6 +184,10 @@
           <input type="text" id="m-city" required placeholder="City" class="glass-input p-2 rounded-xl" />
           <input type="number" id="m-target" placeholder="Daily Target" class="glass-input p-2 rounded-xl" />
           <input type="number" id="m-bv" placeholder="Starting BV" value="0" class="glass-input p-2 rounded-xl text-emerald-400 font-bold" />
+        </div>
+        <div>
+          <label class="text-[10px] text-slate-400 block mb-1">Specific Device ID Pre-Register (Optional)</label>
+          <input type="text" id="m-pre-device" placeholder="e.g. DEV_123456 (Khali chhodne par pehle login par bind hoga)" class="glass-input w-full p-2 rounded-xl font-mono text-[11px]" />
         </div>
         <div>
           <label class="text-[10px] text-slate-400 block mb-1">Profile Photo</label>
@@ -193,9 +223,15 @@
         <button onclick="drAddManualPlan()" class="p-2 bg-purple-600/20 text-purple-300 border border-purple-500/20 rounded-xl font-semibold">+ Manual Plan</button>
         <button onclick="drDirectAddBV()" class="p-2 bg-emerald-600/20 text-emerald-300 border border-emerald-500/20 rounded-xl font-semibold">+ Direct BV</button>
       </div>
-      <div class="p-2.5 rounded-xl glass-input flex items-center justify-between text-xs">
-        <span class="text-slate-300">Device Lock:</span>
-        <button onclick="drResetMemberDevice()" class="px-2.5 py-1 bg-amber-600/20 text-amber-300 border border-amber-500/30 rounded-lg text-[11px] font-bold">Reset Device</button>
+      <div class="p-2.5 rounded-xl glass-input space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-300">Bound Device:</span>
+          <span id="dr-device-id-val" class="font-mono text-emerald-400 font-bold text-[11px]">None</span>
+        </div>
+        <div class="flex gap-2 pt-1">
+          <button onclick="drSetSpecificDevice()" class="flex-1 py-1 bg-blue-600/20 text-blue-300 rounded text-[10px] font-bold">Set Device ID</button>
+          <button onclick="drResetMemberDevice()" class="flex-1 py-1 bg-amber-600/20 text-amber-300 rounded text-[10px] font-bold">Reset Device</button>
+        </div>
       </div>
       <div class="flex gap-2">
         <button id="dr-toggle-status-btn" class="flex-1 py-1.5 rounded-xl text-xs font-bold"></button>
@@ -220,6 +256,7 @@
     let currentSession = JSON.parse(localStorage.getItem("hmt_session")) || null;
     let selectedMemberId = null;
     let pendingAdminUser = null;
+    let selectedRoleTab = "member"; // Default login mode
 
     function getDeviceFingerprint() {
       let devId = localStorage.getItem("hmt_dev_fingerprint");
@@ -228,6 +265,38 @@
         localStorage.setItem("hmt_dev_fingerprint", devId);
       }
       return devId;
+    }
+
+    function copyCurrentDeviceId() {
+      const dev = getDeviceFingerprint();
+      navigator.clipboard.writeText(dev).then(() => {
+        alert("Device ID copied to clipboard: " + dev);
+      }).catch(() => {
+        prompt("Aapka Device ID:", dev);
+      });
+    }
+
+    function setLoginRole(role) {
+      selectedRoleTab = role;
+      const memBtn = document.getElementById("role-select-member");
+      const admBtn = document.getElementById("role-select-admin");
+      const subBtn = document.getElementById("login-submit-btn");
+
+      if (role === "admin") {
+        admBtn.classList.add("tab-active");
+        admBtn.classList.remove("text-slate-400");
+        memBtn.classList.remove("tab-active");
+        memBtn.classList.add("text-slate-400");
+        subBtn.textContent = "Master Admin Portal Login";
+        subBtn.className = "w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl transition mt-2";
+      } else {
+        memBtn.classList.add("tab-active");
+        memBtn.classList.remove("text-slate-400");
+        admBtn.classList.remove("tab-active");
+        admBtn.classList.add("text-slate-400");
+        subBtn.textContent = "Member Portal Login";
+        subBtn.className = "w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition mt-2";
+      }
     }
 
     function saveDB() {
@@ -247,6 +316,9 @@
 
     function initApp() {
       const admin = users.find(u => u.role === "admin");
+      const currentDev = getDeviceFingerprint();
+      const devDisplay = document.getElementById("login-device-fingerprint");
+      if (devDisplay) devDisplay.textContent = currentDev;
       document.getElementById("motivation-text-display").textContent = `"${systemConfig.motivation}"`;
 
       if (!admin) {
@@ -282,7 +354,7 @@
       };
       users.push(admin);
       saveDB();
-      alert("Master Portal activated on this primary device!");
+      alert("Master Portal activated on this primary device: " + currentDev);
       showDashboard(admin);
     });
 
@@ -307,6 +379,13 @@
         return;
       }
 
+      // Role check against selected toggle
+      if (user.role !== selectedRoleTab) {
+        err.textContent = `Role mismatch: Yeh account '${user.role.toUpperCase()}' hai, kripya upar sahi portal select karein!`;
+        err.classList.remove("hidden");
+        return;
+      }
+
       // ADMIN DEVICE AUTHORIZATION FLOW
       if (user.role === "admin") {
         let authDevices = user.authorizedDevices || [];
@@ -316,11 +395,12 @@
         }
         const maxAllowed = systemConfig.maxAdminDevices || 2;
         if (authDevices.length >= maxAllowed) {
-          err.textContent = `Master Device Limit Exceeded! Maximum ${maxAllowed} devices allowed. Settings me ja kar limit badhayein ya purana slot revoke karein.`;
+          err.textContent = `Master Device Limit Exceeded! Max ${maxAllowed} devices allowed. Settings me limit badhayein ya purana device remove karein.`;
           err.classList.remove("hidden");
           return;
         }
         pendingAdminUser = user;
+        document.getElementById("verify-modal-device-id").textContent = currentDev;
         openModal("master-number-verify-modal");
         return;
       }
@@ -336,7 +416,7 @@
         if (user.boundDeviceId === currentDev) {
           showDashboard(user);
         } else {
-          err.textContent = "Device Mismatch: Aap apni ID kisi dusre phone me nahi chala sakte! Device reset ke liye Admin se kahein.";
+          err.textContent = `Device Mismatch: Registered ID [${user.boundDeviceId}] is different from this device [${currentDev}]. Admin se reset karwayein.`;
           err.classList.remove("hidden");
         }
       }
@@ -350,7 +430,7 @@
         pendingAdminUser.authorizedDevices = [...(pendingAdminUser.authorizedDevices || []), currentDev];
         saveDB();
         closeModal("master-number-verify-modal");
-        alert("Mobile number verified! Yeh device Master Control ke liye authorize ho gaya.");
+        alert("Mobile verified! Yeh Device ID [" + currentDev + "] Master Control ke liye bind ho gaya.");
         showDashboard(pendingAdminUser);
       } else {
         alert("Galat Mobile Number! Kripya registered master number daalein.");
@@ -408,7 +488,7 @@
           </button>
         </div>
 
-        <!-- RADAR TAB (WITH JPEG REPORT EXPORT CARD) -->
+        <!-- RADAR TAB -->
         <div id="admin-content-radar" class="space-y-4">
           <div id="admin-no-progress-alerts" class="space-y-2"></div>
 
@@ -470,6 +550,7 @@
                   <th class="p-3">Plans</th>
                   <th class="p-3">DD (₹)</th>
                   <th class="p-3">BV</th>
+                  <th class="p-3">Device Lock</th>
                   <th class="p-3">Status</th>
                   <th class="p-3 text-center">Action</th>
                 </tr>
@@ -506,7 +587,7 @@
           </button>
         </div>
 
-        <!-- SETTINGS TAB (COMPLETE WITH ALL ON/OFF TOGGLES + DEVICE LIMITS) -->
+        <!-- SETTINGS TAB (TOGGLES + MANUAL REGISTER DEVICE ID + DEVICE LIMITS) -->
         <div id="admin-content-settings" class="hidden space-y-4 text-xs">
           
           <!-- Master System Feature Toggles -->
@@ -534,12 +615,12 @@
             </div>
           </div>
 
-          <!-- Device Limit Manager -->
+          <!-- Master Device Slots Manager & Manual Register Option -->
           <div class="glass-box p-4 rounded-xl space-y-3">
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-white uppercase">Master Device Slots Limit</h3>
-                <p class="text-[11px] text-slate-400">Kitne phones/laptops me master panel khol sakte hain</p>
+                <p class="text-[11px] text-slate-400">Kitne devices me master panel authorize ho sakta hai</p>
               </div>
               <div class="flex items-center gap-2">
                 <button onclick="adjustAdminDeviceLimit(-1)" class="w-7 h-7 rounded-lg glass-box font-bold hover:bg-white/10">-</button>
@@ -547,6 +628,16 @@
                 <button onclick="adjustAdminDeviceLimit(1)" class="w-7 h-7 rounded-lg glass-box font-bold hover:bg-white/10">+</button>
               </div>
             </div>
+
+            <!-- Manually Register a Device ID input -->
+            <div class="pt-2 border-t border-white/5 space-y-2">
+              <span class="text-slate-300 font-bold block">Manually Authorize Master Device ID:</span>
+              <div class="flex gap-2">
+                <input type="text" id="manual-admin-device-input" placeholder="e.g. DEV_987654" class="glass-input flex-1 px-3 py-1.5 rounded-xl font-mono text-[11px]" />
+                <button onclick="adminAddManualDevice()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs">+ Register Device</button>
+              </div>
+            </div>
+
             <div id="admin-device-list" class="space-y-1.5 pt-2 border-t border-white/5"></div>
           </div>
 
@@ -727,7 +818,7 @@
       setupMemberFormEvents();
     }
 
-    // ================= ADMIN LOGIC & EVENT HANDLERS =================
+    // ================= ADMIN ACTIONS =================
     function switchAdminTab(tab) {
       ['radar', 'roster', 'approvals', 'leaderboard', 'settings'].forEach(t => {
         document.getElementById(`admin-content-${t}`).classList.add('hidden');
@@ -812,6 +903,21 @@
       alert(`Master device limit set to ${current}!`);
     }
 
+    function adminAddManualDevice() {
+      const dev = document.getElementById("manual-admin-device-input").value.trim();
+      if (!dev) return;
+      const admin = users.find(u => u.role === "admin");
+      if ((admin.authorizedDevices || []).includes(dev)) {
+        alert("Yeh Device ID pehle se registered hai!");
+        return;
+      }
+      admin.authorizedDevices = [...(admin.authorizedDevices || []), dev];
+      saveDB();
+      document.getElementById("manual-admin-device-input").value = "";
+      renderAdminDevices();
+      alert("Device ID [" + dev + "] Master Authorized list me jud gaya!");
+    }
+
     function renderAdminDevices() {
       const admin = users.find(u => u.role === "admin");
       const list = document.getElementById("admin-device-list");
@@ -822,7 +928,7 @@
         const div = document.createElement("div");
         div.className = "p-2 rounded-lg glass-input flex items-center justify-between text-xs";
         div.innerHTML = `
-          <span><strong>Device #${idx+1}</strong>: <span class="font-mono text-slate-400 text-[10px]">${dev}</span></span>
+          <span><strong>Slot #${idx+1}</strong>: <span class="font-mono text-slate-400 text-[10px]">${dev}</span></span>
           ${idx > 0 ? `<button onclick="adminRevokeDevice(${idx})" class="px-2 py-0.5 bg-red-600/20 text-red-300 rounded text-[10px] font-bold">Remove</button>` : `<span class="text-emerald-400 text-[10px] font-bold">Primary</span>`}
         `;
         list.appendChild(div);
@@ -856,6 +962,7 @@
           <td class="p-3 text-purple-400 font-bold">${m.todayPlans || 0}</td>
           <td class="p-3 text-amber-400 font-bold">₹${(m.todayDD || 0).toLocaleString("en-IN")}</td>
           <td class="p-3 text-emerald-400 font-bold">${(m.bv || 0).toLocaleString("en-IN")}</td>
+          <td class="p-3 font-mono text-[10px] text-blue-400 font-semibold">${m.boundDeviceId ? m.boundDeviceId : '<span class="text-slate-500">Unbound</span>'}</td>
           <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${m.status === 'Active' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}">${m.status}</span></td>
           <td class="p-3 text-center"><button onclick="openMemberDrawer('${m.id}')" class="px-2 py-1 glass-box text-blue-400 rounded text-[11px] font-bold">Open</button></td>
         `;
@@ -921,6 +1028,7 @@
     document.getElementById("add-member-form").addEventListener("submit", (e) => {
       e.preventDefault();
       const photoFile = document.getElementById("m-photo").files[0];
+      const preDev = document.getElementById("m-pre-device").value.trim();
       const proceed = (b64) => {
         const newM = {
           id: "m_" + Date.now(),
@@ -934,7 +1042,7 @@
           photo: b64 || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
           role: "member",
           status: "Active",
-          boundDeviceId: null,
+          boundDeviceId: preDev || null,
           todayPlans: 0,
           todayFollowups: 0,
           todayDD: 0,
@@ -946,7 +1054,7 @@
         closeModal("add-member-modal");
         document.getElementById("add-member-form").reset();
         renderAdminAll();
-        alert("Member created!");
+        alert("Member created successfully!");
       };
       if (photoFile) {
         const r = new FileReader();
@@ -963,6 +1071,7 @@
       document.getElementById("dr-name").textContent = m.name;
       document.getElementById("dr-phone").textContent = m.phone;
       document.getElementById("dr-user").textContent = m.username;
+      document.getElementById("dr-device-id-val").textContent = m.boundDeviceId || "Unbound (Any Device)";
 
       const btn = document.getElementById("dr-toggle-status-btn");
       btn.className = m.status === "Active" ? "flex-1 py-1.5 bg-red-600/20 text-red-300 rounded-xl font-bold" : "flex-1 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-xl font-bold";
@@ -976,11 +1085,24 @@
       openModal("member-drawer-modal");
     };
 
+    function drSetSpecificDevice() {
+      const dev = prompt("Member ka Device ID daalein (e.g. DEV_123456):");
+      if (dev === null) return;
+      users = users.map(u => u.id === selectedMemberId ? { ...u, boundDeviceId: dev.trim() || null } : u);
+      saveDB();
+      openMemberDrawer(selectedMemberId);
+      renderAdminAll();
+      alert("Member Device ID updated!");
+    }
+
     function drResetMemberDevice() {
       users = users.map(u => u.id === selectedMemberId ? { ...u, boundDeviceId: null } : u);
       saveDB();
+      openMemberDrawer(selectedMemberId);
+      renderAdminAll();
       alert("Member device reset! Naye phone me login kar sakte hain.");
     }
+
     function drAddManualPlan() {
       const c = prompt("Kitne plans jodne hain?", "1");
       if (!c || isNaN(c)) return;
@@ -1211,9 +1333,9 @@
 
     function exportToCSV() {
       const members = users.filter(u => u.role === "member");
-      let csv = "Name,Phone,City,Target,TodayPlans,TodayDD,TotalBV,Status\n";
+      let csv = "Name,Phone,City,Target,TodayPlans,TodayDD,TotalBV,DeviceID,Status\n";
       members.forEach(m => {
-        csv += `"${m.name}","${m.phone}","${m.city}",${m.target || 0},${m.todayPlans || 0},${m.todayDD || 0},${m.bv || 0},"${m.status}"\n`;
+        csv += `"${m.name}","${m.phone}","${m.city}",${m.target || 0},${m.todayPlans || 0},${m.todayDD || 0},${m.bv || 0},"${m.boundDeviceId || ''}","${m.status}"\n`;
       });
       const blob = new Blob([csv], { type: "text/csv" });
       const a = document.createElement("a");
