@@ -59,7 +59,7 @@
 </head>
 <body class="selection:bg-blue-600 selection:text-white pb-28">
 
-  <!-- SCREEN 1: FIRST TIME ADMIN SETUP -->
+  <!-- ADMIN SETUP -->
   <div id="setup-section" class="hidden min-h-screen flex items-center justify-center p-4">
     <div class="glass-box w-full max-w-md rounded-2xl p-7 relative">
       <div class="text-center mb-6">
@@ -103,7 +103,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 2: ADMIN LOGIN -->
+  <!-- ADMIN LOGIN -->
   <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
     <div class="glass-box w-full max-w-sm rounded-2xl p-7 relative">
       <div class="text-center mb-6">
@@ -139,7 +139,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 3: MASTER DASHBOARD -->
+  <!-- DASHBOARD CONTAINER -->
   <div id="dashboard-section" class="hidden">
     <header class="sticky top-0 z-30 glass-box border-b border-white/5 px-4 sm:px-8 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
@@ -347,7 +347,7 @@
 
     </main>
 
-    <!-- ADMIN BOTTOM DOCK (KBS WAREHOUSE STYLE) -->
+    <!-- DOCK NAV -->
     <nav class="fixed bottom-0 left-0 right-0 z-40 dock-nav">
       <div class="max-w-md mx-auto flex items-center justify-around px-2 py-2">
         <button onclick="switchAdminTab('radar')" id="dock-atab-radar" class="dock-tab flex-1 flex flex-col items-center gap-1 active">
@@ -377,7 +377,7 @@
     </nav>
   </div>
 
-  <!-- MODAL: MASTER DEVICE REGISTRATION -->
+  <!-- MODALS -->
   <div id="master-number-verify-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="glass-box max-w-sm w-full p-6 rounded-2xl text-center space-y-4 border border-amber-500/30">
       <div class="h-12 w-12 bg-amber-500/20 border border-amber-500/40 rounded-2xl flex items-center justify-center mx-auto text-amber-400">
@@ -393,7 +393,6 @@
     </div>
   </div>
 
-  <!-- MODAL: ADD MEMBER -->
   <div id="add-member-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="glass-box max-w-md w-full p-6 rounded-2xl space-y-3">
       <div class="flex justify-between items-center border-b border-white/5 pb-2">
@@ -430,7 +429,6 @@
     </div>
   </div>
 
-  <!-- MODAL: MEMBER DRAWER -->
   <div id="member-drawer-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="glass-box max-w-sm w-full p-6 rounded-2xl space-y-4">
       <div class="flex justify-between items-center border-b border-white/5 pb-2">
@@ -466,18 +464,24 @@
   </div>
 
   <script>
-    let users = JSON.parse(localStorage.getItem("hmt_users")) || [];
-    let pendingBV = JSON.parse(localStorage.getItem("hmt_pending_bv")) || [];
-    let systemConfig = JSON.parse(localStorage.getItem("hmt_config")) || {
-      motivation: "Aaj jo mehnat se nahi darega, wahi kal team ka sabse bada leader banega!",
-      broadcastTarget: "Har active associate aaj minimum 3 Plans complete kare!",
-      maxAdminDevices: 2,
-      gpsEnabled: true,
-      bvEnabled: true,
-      otpEnabled: true,
-      noProgressEnabled: true,
-      activeOTP: null
-    };
+    function loadFreshDB() {
+      return {
+        users: JSON.parse(localStorage.getItem("hmt_users")) || [],
+        pendingBV: JSON.parse(localStorage.getItem("hmt_pending_bv")) || [],
+        config: JSON.parse(localStorage.getItem("hmt_config")) || {
+          motivation: "Aaj jo mehnat se nahi darega, wahi kal team ka sabse bada leader banega!",
+          broadcastTarget: "",
+          maxAdminDevices: 2,
+          gpsEnabled: true,
+          bvEnabled: true,
+          otpEnabled: true,
+          noProgressEnabled: true,
+          activeOTP: null
+        }
+      };
+    }
+
+    let { users, pendingBV, config: systemConfig } = loadFreshDB();
     let currentAdminSession = JSON.parse(localStorage.getItem("hmt_admin_session")) || null;
     let selectedMemberId = null;
     let pendingAdminUser = null;
@@ -501,6 +505,10 @@
     function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
 
     function initAdminApp() {
+      const db = loadFreshDB();
+      users = db.users;
+      systemConfig = db.config;
+
       const admin = users.find(u => u.role === "admin");
       if (!admin) {
         document.getElementById("setup-section").classList.remove("hidden");
@@ -540,6 +548,10 @@
       e.preventDefault();
       const err = document.getElementById("login-error");
       err.classList.add("hidden");
+
+      const db = loadFreshDB();
+      users = db.users;
+      systemConfig = db.config;
 
       const u = document.getElementById("login-username").value.trim().toLowerCase();
       const p = document.getElementById("login-password").value.trim();
@@ -593,7 +605,6 @@
 
       document.getElementById("header-user-name").textContent = admin.name;
 
-      // Sync settings
       document.getElementById("toggle-gps").checked = systemConfig.gpsEnabled;
       document.getElementById("toggle-bv").checked = systemConfig.bvEnabled;
       document.getElementById("toggle-otp").checked = systemConfig.otpEnabled;
@@ -627,6 +638,11 @@
     }
 
     function renderAdminAll() {
+      const db = loadFreshDB();
+      users = db.users;
+      pendingBV = db.pendingBV;
+      systemConfig = db.config;
+
       const members = users.filter(u => u.role === "member");
       const totalPlans = members.reduce((s, m) => s + (Number(m.todayPlans) || 0), 0);
       const totalDD = members.reduce((s, m) => s + (Number(m.todayDD) || 0), 0);
@@ -648,7 +664,7 @@
         } else pBadge.classList.add("hidden");
       }
 
-      // No Progress Alerts
+      // No progress alerts
       const alertContainer = document.getElementById("admin-no-progress-alerts");
       alertContainer.innerHTML = "";
       members.filter(m => m.noProgressReason).forEach(m => {
@@ -661,7 +677,7 @@
         alertContainer.appendChild(div);
       });
 
-      // GPS Radar Stream
+      // GPS stream
       const gpsFeed = document.getElementById("admin-gps-feed");
       gpsFeed.innerHTML = "";
       let hasFeed = false;
@@ -710,7 +726,6 @@
 
     function updateTargetBroadcast() {
       const tgt = document.getElementById("target-broadcast-input").value.trim();
-      if (!tgt) return;
       systemConfig.broadcastTarget = tgt;
       saveDB();
       document.getElementById("target-broadcast-input").value = "";
@@ -874,7 +889,7 @@
         closeModal("add-member-modal");
         document.getElementById("add-member-form").reset();
         renderAdminAll();
-        alert("Member created successfully!");
+        alert(`Member "${newM.name}" successfully ban gaya!\nUser ID: ${newM.username}\nPassword: ${newM.password}`);
       };
       if (photoFile) {
         const r = new FileReader();
