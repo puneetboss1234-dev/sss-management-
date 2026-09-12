@@ -57,7 +57,7 @@
         <div>
           <label class="font-bold text-amber-400 block mb-1 uppercase">Master Verification Mobile Number</label>
           <input type="tel" id="setup-phone" required placeholder="10-digit Phone" class="glass-input w-full px-3.5 py-2 rounded-xl border-amber-500/30" />
-          <p class="text-[10px] text-slate-400 mt-1">Kisi bhi naye phone/device me master panel kholne ke liye isi number se verification hogi.</p>
+          <p class="text-[10px] text-slate-400 mt-1">Kisi bhi naye device me master panel kholne ke liye isi number se verification hogi.</p>
         </div>
         <div>
           <label class="font-bold text-slate-400 block mb-1 uppercase">City / Branch</label>
@@ -320,7 +320,6 @@
           err.classList.remove("hidden");
           return;
         }
-        // Verification number prompt
         pendingAdminUser = user;
         openModal("master-number-verify-modal");
         return;
