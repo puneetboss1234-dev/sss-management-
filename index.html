@@ -10,16 +10,16 @@
 
   <style>
     body {
-      background-color: #090d16;
-      background-image: radial-gradient(at top center, rgba(30, 58, 138, 0.3) 0%, transparent 70%);
+      background-color: #070b14;
+      background-image: radial-gradient(at top center, rgba(30, 58, 138, 0.28) 0%, transparent 70%);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #f1f5f9;
       min-height: 100vh;
     }
     .glass-box {
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .glass-input {
@@ -31,10 +31,25 @@
       border-color: #3b82f6;
       outline: none;
     }
-    .tab-active {
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #60a5fa;
+    /* Mobile-App Dock Navigation Styling */
+    .dock-nav {
+      background: rgba(11, 18, 33, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
+    }
+    .dock-tab {
+      color: #64748b;
+      transition: all 0.2s ease;
+    }
+    .dock-tab.active {
+      color: #38bdf8;
+    }
+    .dock-tab.active .dock-icon-wrap {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-2px);
     }
     #splash-screen {
       transition: opacity 0.5s ease, visibility 0.5s ease;
@@ -45,25 +60,16 @@
     .banner-glow {
       box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
     }
-    .radar-pulse {
-      animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-    }
-    @keyframes pulse-ring {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.15); opacity: 0.3; }
-      100% { transform: scale(0.95); opacity: 0.8; }
-    }
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 999px; }
   </style>
 </head>
-<body class="selection:bg-blue-600 selection:text-white pb-20">
+<body class="selection:bg-blue-600 selection:text-white pb-28">
 
   <!-- ================= SPLASH OPENING SCREEN (WITH CREATOR ATTRIBUTION) ================= -->
-  <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-between py-12 px-4 bg-[#090d16]">
+  <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-between py-12 px-4 bg-[#070b14]">
     <div></div>
     
-    <!-- Central Brand Emblem & Identity -->
     <div class="text-center space-y-4 animate-pulse">
       <div class="w-24 h-24 mx-auto logo-glow">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
@@ -88,7 +94,6 @@
       </div>
     </div>
 
-    <!-- Designed By Puneet Kumar Signature -->
     <div class="text-center">
       <span class="inline-block px-4 py-1.5 rounded-full glass-box border border-blue-500/30 text-xs font-mono font-semibold tracking-wider text-blue-300">
         Designed by <strong class="text-white font-bold tracking-wide">Puneet Kumar</strong>
@@ -178,7 +183,7 @@
 
   <!-- ================= SCREEN 3: DASHBOARD CONTAINER ================= -->
   <div id="dashboard-section" class="hidden">
-    <header class="sticky top-0 z-40 glass-box border-b border-white/5 px-4 sm:px-8 py-3 flex items-center justify-between">
+    <header class="sticky top-0 z-30 glass-box border-b border-white/5 px-4 sm:px-8 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <div class="w-7 h-7 logo-glow shrink-0">
           <svg viewBox="0 0 100 100" fill="none" class="w-full h-full">
@@ -225,7 +230,13 @@
       </div>
     </div>
 
+    <!-- MAIN ROLE SPECIFIC CONTENT -->
     <main id="dynamic-role-container" class="pt-4"></main>
+
+    <!-- BOTTOM APP BAR NAVIGATION (FIXED AT BOTTOM FOR BOTH ADMIN & MEMBER) -->
+    <nav id="bottom-dock-nav" class="fixed bottom-0 left-0 right-0 z-40 dock-nav">
+      <div id="dock-tabs-container" class="max-w-md mx-auto flex items-center justify-around px-2 py-2"></div>
+    </nav>
 
     <!-- Footer Attribution -->
     <footer class="mt-8 pb-4 text-center">
@@ -338,6 +349,7 @@
     let currentSession = JSON.parse(localStorage.getItem("hmt_session")) || null;
     let selectedMemberId = null;
     let pendingAdminUser = null;
+    let currentActiveTab = "radar";
 
     function getDeviceFingerprint() {
       let devId = localStorage.getItem("hmt_dev_fingerprint");
@@ -364,7 +376,7 @@
     function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
 
     function initApp() {
-      // Smooth Splash Screen Timeout (1.6 Seconds)
+      // Smooth Splash Screen Timeout
       setTimeout(() => {
         const splash = document.getElementById("splash-screen");
         if (splash) {
@@ -511,10 +523,70 @@
 
       if (user.role === "admin") {
         buildAdminDOM(container);
-        renderAdminAll();
+        renderBottomDock("admin");
+        switchAdminTab('radar');
       } else {
         buildMemberDOM(container, user);
-        renderMemberWorkspace(user);
+        renderBottomDock("member");
+        switchMemberTab('workspace');
+      }
+      lucide.createIcons();
+    }
+
+    // ================= DYNAMIC BOTTOM DOCK BUILDER (KBS Warehouse Style) =================
+    function renderBottomDock(role) {
+      const dock = document.getElementById("dock-tabs-container");
+      dock.innerHTML = "";
+
+      if (role === "admin") {
+        dock.innerHTML = `
+          <button onclick="switchAdminTab('radar')" id="dock-atab-radar" class="dock-tab flex-1 flex flex-col items-center gap-1 active">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="radar" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">Radar</span>
+          </button>
+          <button onclick="switchAdminTab('roster')" id="dock-atab-roster" class="dock-tab flex-1 flex flex-col items-center gap-1">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="users" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">Roster</span>
+          </button>
+          <button onclick="switchAdminTab('approvals')" id="dock-atab-approvals" class="dock-tab flex-1 flex flex-col items-center gap-1 relative">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition relative">
+              <i data-lucide="clock" class="w-4 h-4"></i>
+              <span id="dock-admin-pending-badge" class="hidden absolute -top-1 -right-1 px-1 bg-amber-500 text-black font-black rounded-full text-[8px]">0</span>
+            </div>
+            <span class="text-[10px] font-bold tracking-tight">Approvals</span>
+          </button>
+          <button onclick="switchAdminTab('leaderboard')" id="dock-atab-leaderboard" class="dock-tab flex-1 flex flex-col items-center gap-1">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="trophy" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">Leaders</span>
+          </button>
+          <button onclick="switchAdminTab('settings')" id="dock-atab-settings" class="dock-tab flex-1 flex flex-col items-center gap-1">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="sliders" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">Settings</span>
+          </button>
+        `;
+      } else {
+        dock.innerHTML = `
+          <button onclick="switchMemberTab('workspace')" id="dock-mtab-workspace" class="dock-tab flex-1 flex flex-col items-center gap-1 active">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="layout-grid" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">Work</span>
+          </button>
+          <button onclick="switchMemberTab('diary')" id="dock-mtab-diary" class="dock-tab flex-1 flex flex-col items-center gap-1">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">Diary</span>
+          </button>
+          <button onclick="switchMemberTab('sales')" id="dock-mtab-sales" class="dock-tab flex-1 flex flex-col items-center gap-1">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="shopping-bag" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">BV Sales</span>
+          </button>
+          <button onclick="switchMemberTab('toolkit')" id="dock-mtab-toolkit" class="dock-tab flex-1 flex flex-col items-center gap-1">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="briefcase" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">Kit</span>
+          </button>
+          <button onclick="switchMemberTab('reports')" id="dock-mtab-reports" class="dock-tab flex-1 flex flex-col items-center gap-1">
+            <div class="dock-icon-wrap p-1.5 rounded-xl border border-transparent transition"><i data-lucide="lock" class="w-4 h-4"></i></div>
+            <span class="text-[10px] font-bold tracking-tight">Reports</span>
+          </button>
+        `;
       }
       lucide.createIcons();
     }
@@ -523,25 +595,6 @@
     function buildAdminDOM(container) {
       container.className = "max-w-6xl mx-auto px-4 sm:px-8 space-y-5";
       container.innerHTML = `
-        <div class="glass-box p-1 rounded-xl flex flex-wrap gap-1 text-xs">
-          <button onclick="switchAdminTab('radar')" id="atab-radar" class="flex-1 py-2 px-3 rounded-lg font-bold transition flex items-center justify-center gap-1.5 tab-active">
-            <i data-lucide="radar" class="w-3.5 h-3.5"></i> Radar
-          </button>
-          <button onclick="switchAdminTab('roster')" id="atab-roster" class="flex-1 py-2 px-3 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-slate-400">
-            <i data-lucide="users" class="w-3.5 h-3.5"></i> Team Roster
-          </button>
-          <button onclick="switchAdminTab('approvals')" id="atab-approvals" class="flex-1 py-2 px-3 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-slate-400 relative">
-            <i data-lucide="clock" class="w-3.5 h-3.5"></i> Approvals
-            <span id="admin-pending-badge" class="hidden px-1 py-0.2 bg-amber-500 text-black font-black rounded-full text-[9px]">0</span>
-          </button>
-          <button onclick="switchAdminTab('leaderboard')" id="atab-leaderboard" class="flex-1 py-2 px-3 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-slate-400">
-            <i data-lucide="trophy" class="w-3.5 h-3.5"></i> Leaderboard
-          </button>
-          <button onclick="switchAdminTab('settings')" id="atab-settings" class="flex-1 py-2 px-3 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-slate-400">
-            <i data-lucide="sliders" class="w-3.5 h-3.5"></i> Settings
-          </button>
-        </div>
-
         <!-- RADAR TAB -->
         <div id="admin-content-radar" class="space-y-4">
           <div id="admin-no-progress-alerts" class="space-y-2"></div>
@@ -651,7 +704,7 @@
 
         <!-- SETTINGS TAB -->
         <div id="admin-content-settings" class="hidden space-y-4 text-xs">
-          <!-- TARGET BROADCAST CONTROL (NEW) -->
+          <!-- TARGET BROADCAST CONTROL -->
           <div class="glass-box p-4 rounded-xl space-y-2 border border-emerald-500/30">
             <h3 class="font-bold text-emerald-400 uppercase flex items-center gap-2">
               <i data-lucide="send" class="w-4 h-4"></i> Team Target Broadcast Directive
@@ -874,29 +927,43 @@
             </div>
           </div>
         </div>
-
-        <div class="fixed bottom-2 left-2 right-2 max-w-sm mx-auto glass-box p-1 rounded-xl flex justify-between gap-1 shadow-2xl z-40">
-          <button onclick="switchMemberTab('workspace')" id="mtab-workspace" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center tab-active"><i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>Work</button>
-          <button onclick="switchMemberTab('diary')" id="mtab-diary" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center text-slate-400"><i data-lucide="book-open" class="w-3.5 h-3.5"></i>Diary</button>
-          <button onclick="switchMemberTab('sales')" id="mtab-sales" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center text-slate-400"><i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>BV</button>
-          <button onclick="switchMemberTab('toolkit')" id="mtab-toolkit" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center text-slate-400"><i data-lucide="briefcase" class="w-3.5 h-3.5"></i>Kit</button>
-          <button onclick="switchMemberTab('reports')" id="mtab-reports" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center text-slate-400"><i data-lucide="lock" class="w-3.5 h-3.5"></i>Reports</button>
-        </div>
       `;
       setupMemberFormEvents();
     }
 
-    // ================= ADMIN ACTIONS =================
+    // ================= ADMIN BOTTOM DOCK SWITCHER =================
     function switchAdminTab(tab) {
       ['radar', 'roster', 'approvals', 'leaderboard', 'settings'].forEach(t => {
-        document.getElementById(`admin-content-${t}`).classList.add('hidden');
-        document.getElementById(`atab-${t}`).classList.remove('tab-active');
-        document.getElementById(`atab-${t}`).classList.add('text-slate-400');
+        const content = document.getElementById(`admin-content-${t}`);
+        const dockBtn = document.getElementById(`dock-atab-${t}`);
+        if (content) content.classList.add('hidden');
+        if (dockBtn) dockBtn.classList.remove('active');
       });
-      document.getElementById(`admin-content-${tab}`).classList.remove('hidden');
-      document.getElementById(`atab-${tab}`).classList.add('tab-active');
-      document.getElementById(`atab-${tab}`).classList.remove('text-slate-400');
+
+      const targetContent = document.getElementById(`admin-content-${tab}`);
+      const targetDockBtn = document.getElementById(`dock-atab-${tab}`);
+      if (targetContent) targetContent.classList.remove('hidden');
+      if (targetDockBtn) targetDockBtn.classList.add('active');
+
       renderAdminAll();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ================= MEMBER BOTTOM DOCK SWITCHER =================
+    function switchMemberTab(tab) {
+      ['workspace', 'diary', 'sales', 'toolkit', 'reports'].forEach(t => {
+        const content = document.getElementById(`member-content-${t}`);
+        const dockBtn = document.getElementById(`dock-mtab-${t}`);
+        if (content) content.classList.add('hidden');
+        if (dockBtn) dockBtn.classList.remove('active');
+      });
+
+      const targetContent = document.getElementById(`member-content-${tab}`);
+      const targetDockBtn = document.getElementById(`dock-mtab-${tab}`);
+      if (targetContent) targetContent.classList.remove('hidden');
+      if (targetDockBtn) targetDockBtn.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderAdminAll() {
@@ -913,11 +980,15 @@
       const rDate = document.getElementById("report-card-date");
       if (rDate) rDate.textContent = "Date: " + new Date().toLocaleDateString("en-IN", { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
 
-      const pBadge = document.getElementById("admin-pending-badge");
-      if (pendingBV.length > 0) {
-        pBadge.textContent = pendingBV.length;
-        pBadge.classList.remove("hidden");
-      } else pBadge.classList.add("hidden");
+      const pBadge = document.getElementById("dock-admin-pending-badge");
+      if (pBadge) {
+        if (pendingBV.length > 0) {
+          pBadge.textContent = pendingBV.length;
+          pBadge.classList.remove("hidden");
+        } else {
+          pBadge.classList.add("hidden");
+        }
+      }
 
       // Alerts
       const alertContainer = document.getElementById("admin-no-progress-alerts");
@@ -1224,17 +1295,6 @@
     }
 
     // ================= MEMBER WORKSPACE LOGIC =================
-    function switchMemberTab(tab) {
-      ['workspace', 'diary', 'sales', 'toolkit', 'reports'].forEach(t => {
-        document.getElementById(`member-content-${t}`).classList.add('hidden');
-        document.getElementById(`mtab-${t}`).classList.remove('tab-active');
-        document.getElementById(`mtab-${t}`).classList.add('text-slate-400');
-      });
-      document.getElementById(`member-content-${tab}`).classList.remove('hidden');
-      document.getElementById(`mtab-${tab}`).classList.add('tab-active');
-      document.getElementById(`mtab-${tab}`).classList.remove('text-slate-400');
-    }
-
     function setupMemberFormEvents() {
       document.getElementById("member-daily-form").addEventListener("submit", (e) => {
         e.preventDefault();
@@ -1376,7 +1436,7 @@
     // ================= EXPORT JPEG / JPG & BACKUP ENGINES =================
     function exportDailyReportJPG() {
       const target = document.getElementById("admin-daily-report-card");
-      html2canvas(target, { backgroundColor: '#090d16', scale: 2 }).then(cv => {
+      html2canvas(target, { backgroundColor: '#070b14', scale: 2 }).then(cv => {
         const a = document.createElement("a");
         a.download = `Vanguard_One_Report_${new Date().toISOString().slice(0,10)}.jpg`;
         a.href = cv.toDataURL("image/jpeg", 0.95);
@@ -1385,7 +1445,7 @@
     }
 
     function exportVisitingCardJPG() {
-      html2canvas(document.getElementById("visiting-card-canvas"), { backgroundColor: '#090d16', scale: 2 }).then(cv => {
+      html2canvas(document.getElementById("visiting-card-canvas"), { backgroundColor: '#070b14', scale: 2 }).then(cv => {
         const a = document.createElement("a");
         a.download = `${currentSession.name}_Visiting_Card.jpg`;
         a.href = cv.toDataURL("image/jpeg", 0.95);
@@ -1394,7 +1454,7 @@
     }
 
     function exportLeaderboardJPG() {
-      html2canvas(document.getElementById("leaderboard-poster"), { backgroundColor: '#090d16', scale: 2 }).then(cv => {
+      html2canvas(document.getElementById("leaderboard-poster"), { backgroundColor: '#070b14', scale: 2 }).then(cv => {
         const a = document.createElement("a");
         a.download = `Vanguard_One_Champions.jpg`;
         a.href = cv.toDataURL("image/jpeg", 0.95);
