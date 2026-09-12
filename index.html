@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hemant Team Management</title>
+  <title>Hemant Team Management - Master Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -17,13 +17,13 @@
       min-height: 100vh;
     }
     .glass-box {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .glass-input {
-      background: rgba(2, 6, 23, 0.5);
+      background: rgba(2, 6, 23, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #ffffff;
     }
@@ -42,12 +42,12 @@
 </head>
 <body class="selection:bg-blue-600 selection:text-white pb-20">
 
-  <!-- ================= SETUP SECTION ================= -->
+  <!-- ================= SCREEN 1: FIRST TIME ADMIN SETUP ================= -->
   <div id="setup-section" class="hidden min-h-screen flex items-center justify-center p-4">
     <div class="glass-box w-full max-w-md rounded-2xl p-7 relative">
       <div class="text-center mb-6">
         <h1 class="text-xl font-black text-white uppercase tracking-wider">Hemant Team Management</h1>
-        <p class="text-xs text-blue-400 mt-1">Super Admin First-Time Setup</p>
+        <p class="text-xs text-blue-400 mt-1">Super Admin Account Setup</p>
       </div>
       <form id="setup-form" class="space-y-3.5 text-xs">
         <div>
@@ -55,8 +55,9 @@
           <input type="text" id="setup-name" required placeholder="Hemant Sharma" class="glass-input w-full px-3.5 py-2 rounded-xl" />
         </div>
         <div>
-          <label class="font-bold text-slate-400 block mb-1 uppercase">Admin Phone (Device OTP & Alerts)</label>
-          <input type="tel" id="setup-phone" required placeholder="10-digit Phone" class="glass-input w-full px-3.5 py-2 rounded-xl" />
+          <label class="font-bold text-amber-400 block mb-1 uppercase">Master Verification Mobile Number</label>
+          <input type="tel" id="setup-phone" required placeholder="10-digit Phone" class="glass-input w-full px-3.5 py-2 rounded-xl border-amber-500/30" />
+          <p class="text-[10px] text-slate-400 mt-1">Kisi bhi naye phone/device me master panel kholne ke liye isi number se verification hogi.</p>
         </div>
         <div>
           <label class="font-bold text-slate-400 block mb-1 uppercase">City / Branch</label>
@@ -79,7 +80,7 @@
     </div>
   </div>
 
-  <!-- ================= LOGIN SECTION ================= -->
+  <!-- ================= SCREEN 2: LOGIN PORTAL ================= -->
   <div id="login-section" class="hidden min-h-screen flex items-center justify-center p-4">
     <div class="glass-box w-full max-w-sm rounded-2xl p-7">
       <div class="text-center mb-6">
@@ -103,7 +104,7 @@
     </div>
   </div>
 
-  <!-- ================= MAIN DASHBOARD SHELL ================= -->
+  <!-- ================= SCREEN 3: DASHBOARD CONTAINER ================= -->
   <div id="dashboard-section" class="hidden">
     <header class="sticky top-0 z-40 glass-box border-b border-white/5 px-4 sm:px-8 py-3 flex items-center justify-between">
       <div>
@@ -125,15 +126,18 @@
     <main id="dynamic-role-container" class="pt-4"></main>
   </div>
 
-  <!-- ================= MODAL: ADMIN DEVICE REGISTER OTP ================= -->
-  <div id="device-otp-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-box max-w-sm w-full p-6 rounded-2xl text-center space-y-4">
-      <h3 class="text-sm font-bold text-white uppercase">Authorize New Master Device</h3>
-      <p class="text-xs text-slate-300">Aapke registered phone <strong id="otp-masked-phone" class="text-blue-400"></strong> par 6-digit OTP bheja gaya hai:</p>
-      <input type="text" id="entered-device-otp" maxlength="6" placeholder="000000" class="glass-input w-full p-2.5 rounded-xl text-center text-lg font-mono tracking-widest text-emerald-400" />
-      <div class="flex gap-2">
-        <button onclick="closeModal('device-otp-modal')" class="flex-1 py-2 glass-box rounded-xl text-xs">Cancel</button>
-        <button onclick="confirmAdminDeviceOTP()" class="flex-1 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs">Authorize Device</button>
+  <!-- ================= MODAL: MASTER DEVICE VERIFICATION ================= -->
+  <div id="master-number-verify-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-box max-w-sm w-full p-6 rounded-2xl text-center space-y-4 border border-amber-500/30">
+      <div class="h-12 w-12 bg-amber-500/20 border border-amber-500/40 rounded-2xl flex items-center justify-center mx-auto text-amber-400">
+        <i data-lucide="smartphone" class="w-6 h-6"></i>
+      </div>
+      <h3 class="text-sm font-black text-white uppercase tracking-wider">Device Registration Required</h3>
+      <p class="text-xs text-slate-300">Yeh device Master Portal ke liye registered nahi hai. Is device ko authorize karne ke liye apna <strong>Master Verification Mobile Number</strong> daalein:</p>
+      <input type="tel" id="entered-master-phone" placeholder="Registered 10-digit number" class="glass-input w-full p-2.5 rounded-xl text-center text-sm font-mono tracking-wider text-amber-300" />
+      <div class="flex gap-2 pt-1">
+        <button onclick="closeModal('master-number-verify-modal')" class="flex-1 py-2 glass-box rounded-xl text-xs">Cancel</button>
+        <button onclick="confirmMasterDeviceUnlock()" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs">Verify & Register</button>
       </div>
     </div>
   </div>
@@ -200,19 +204,22 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <!-- ================= JAVASCRIPT SYSTEM ENGINE ================= -->
   <script>
     let users = JSON.parse(localStorage.getItem("hmt_users")) || [];
     let pendingBV = JSON.parse(localStorage.getItem("hmt_pending_bv")) || [];
     let systemConfig = JSON.parse(localStorage.getItem("hmt_config")) || {
       motivation: "Mehnat itni khamoshi se karo ki kamiyabi shor macha de!",
       maxAdminDevices: 2,
+      gpsEnabled: true,
+      bvEnabled: true,
+      otpEnabled: true,
+      noProgressEnabled: true,
       activeOTP: null
     };
     let currentSession = JSON.parse(localStorage.getItem("hmt_session")) || null;
     let selectedMemberId = null;
     let pendingAdminUser = null;
-    let simulatedDeviceOTP = null;
 
     function getDeviceFingerprint() {
       let devId = localStorage.getItem("hmt_dev_fingerprint");
@@ -258,7 +265,7 @@
       lucide.createIcons();
     }
 
-    // Admin Setup
+    // Admin Master Setup
     document.getElementById("setup-form").addEventListener("submit", (e) => {
       e.preventDefault();
       const currentDev = getDeviceFingerprint();
@@ -300,7 +307,7 @@
         return;
       }
 
-      // Admin Check
+      // ADMIN DEVICE AUTHORIZATION FLOW
       if (user.role === "admin") {
         let authDevices = user.authorizedDevices || [];
         if (authDevices.includes(currentDev)) {
@@ -309,19 +316,17 @@
         }
         const maxAllowed = systemConfig.maxAdminDevices || 2;
         if (authDevices.length >= maxAllowed) {
-          err.textContent = `Device Limit Exceeded! Max ${maxAllowed} devices allowed. Settings se limit badhayein ya device revoke karein.`;
+          err.textContent = `Master Device Limit Exceeded! Maximum ${maxAllowed} devices allowed. Settings me ja kar limit badhayein ya purana slot revoke karein.`;
           err.classList.remove("hidden");
           return;
         }
+        // Verification number prompt
         pendingAdminUser = user;
-        simulatedDeviceOTP = Math.floor(100000 + Math.random() * 900000).toString();
-        document.getElementById("otp-masked-phone").textContent = user.phone.slice(0, 3) + "****" + user.phone.slice(-3);
-        alert(`[SMS/WhatsApp OTP]: Naye device ko register karne ke liye OTP: ${simulatedDeviceOTP}`);
-        openModal("device-otp-modal");
+        openModal("master-number-verify-modal");
         return;
       }
 
-      // Member Check
+      // MEMBER DEVICE LOCK (1 DEVICE POLICY)
       if (user.role === "member") {
         if (!user.boundDeviceId) {
           user.boundDeviceId = currentDev;
@@ -332,23 +337,24 @@
         if (user.boundDeviceId === currentDev) {
           showDashboard(user);
         } else {
-          err.textContent = "Device Mismatch: Dusre phone me allow nahi hai!";
+          err.textContent = "Device Mismatch: Aap apni ID kisi dusre phone me nahi chala sakte! Device reset ke liye Admin se kahein.";
           err.classList.remove("hidden");
         }
       }
     });
 
-    function confirmAdminDeviceOTP() {
-      const code = document.getElementById("entered-device-otp").value.trim();
-      if (code === simulatedDeviceOTP && pendingAdminUser) {
+    // UNLOCK MASTER DEVICE WITH REGISTERED MOBILE NUMBER
+    function confirmMasterDeviceUnlock() {
+      const enteredNum = document.getElementById("entered-master-phone").value.trim();
+      if (pendingAdminUser && enteredNum === pendingAdminUser.phone) {
         const currentDev = getDeviceFingerprint();
         pendingAdminUser.authorizedDevices = [...(pendingAdminUser.authorizedDevices || []), currentDev];
         saveDB();
-        closeModal("device-otp-modal");
-        alert("Device successfully registered!");
+        closeModal("master-number-verify-modal");
+        alert("Mobile number verified! Yeh device Master Control ke liye authorize ho gaya.");
         showDashboard(pendingAdminUser);
       } else {
-        alert("Galat OTP!");
+        alert("Galat Mobile Number! Kripya registered master number daalein.");
       }
     }
 
@@ -357,7 +363,7 @@
       location.reload();
     });
 
-    // ================= DYNAMIC DOM =================
+    // ================= DYNAMIC DOM SEPARATION =================
     function showDashboard(user) {
       saveSession(user);
       document.getElementById("setup-section").classList.add("hidden");
@@ -380,7 +386,7 @@
       lucide.createIcons();
     }
 
-    // BUILD ADMIN DOM
+    // ================= BUILD ADMIN MASTER DOM =================
     function buildAdminDOM(container) {
       container.className = "max-w-6xl mx-auto px-4 sm:px-8 space-y-5";
       container.innerHTML = `
@@ -403,11 +409,11 @@
           </button>
         </div>
 
-        <!-- RADAR TAB (WITH JPG REPORT EXPORT CARD) -->
+        <!-- RADAR TAB (WITH JPEG REPORT EXPORT CARD) -->
         <div id="admin-content-radar" class="space-y-4">
           <div id="admin-no-progress-alerts" class="space-y-2"></div>
 
-          <!-- Printable / Exportable Daily Card -->
+          <!-- Exportable Daily Report Card -->
           <div id="admin-daily-report-card" class="glass-box p-5 rounded-2xl space-y-4">
             <div class="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
@@ -501,23 +507,51 @@
           </button>
         </div>
 
-        <!-- SETTINGS TAB -->
+        <!-- SETTINGS TAB (COMPLETE WITH ALL ON/OFF TOGGLES + DEVICE LIMITS) -->
         <div id="admin-content-settings" class="hidden space-y-4 text-xs">
+          
+          <!-- Master System Feature Toggles -->
+          <div class="glass-box p-4 rounded-xl space-y-3">
+            <h3 class="font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="toggle-left" class="w-4 h-4"></i> Master System Feature Controls (On / Off)
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label class="flex items-center justify-between p-3 glass-input rounded-xl cursor-pointer">
+                <span>GPS Show Plan Feature</span>
+                <input type="checkbox" id="toggle-gps" ${systemConfig.gpsEnabled ? 'checked' : ''} onchange="toggleSystemFeature('gps', this.checked)" class="w-4 h-4 accent-blue-600" />
+              </label>
+              <label class="flex items-center justify-between p-3 glass-input rounded-xl cursor-pointer">
+                <span>Member BV Sale Submission</span>
+                <input type="checkbox" id="toggle-bv" ${systemConfig.bvEnabled ? 'checked' : ''} onchange="toggleSystemFeature('bv', this.checked)" class="w-4 h-4 accent-blue-600" />
+              </label>
+              <label class="flex items-center justify-between p-3 glass-input rounded-xl cursor-pointer">
+                <span>OTP Protected Reports Tab</span>
+                <input type="checkbox" id="toggle-otp" ${systemConfig.otpEnabled ? 'checked' : ''} onchange="toggleSystemFeature('otp', this.checked)" class="w-4 h-4 accent-blue-600" />
+              </label>
+              <label class="flex items-center justify-between p-3 glass-input rounded-xl cursor-pointer">
+                <span>No-Progress Reason Reporting</span>
+                <input type="checkbox" id="toggle-noprogress" ${systemConfig.noProgressEnabled ? 'checked' : ''} onchange="toggleSystemFeature('noprogress', this.checked)" class="w-4 h-4 accent-blue-600" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Device Limit Manager -->
           <div class="glass-box p-4 rounded-xl space-y-3">
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="font-bold text-white uppercase">Master Device Slots Control</h3>
+                <h3 class="font-bold text-white uppercase">Master Device Slots Limit</h3>
                 <p class="text-[11px] text-slate-400">Kitne phones/laptops me master panel khol sakte hain</p>
               </div>
               <div class="flex items-center gap-2">
                 <button onclick="adjustAdminDeviceLimit(-1)" class="w-7 h-7 rounded-lg glass-box font-bold hover:bg-white/10">-</button>
-                <span id="setting-max-device-count" class="font-mono text-sm font-bold text-blue-400">2</span>
+                <span id="setting-max-device-count" class="font-mono text-sm font-bold text-blue-400">${systemConfig.maxAdminDevices || 2}</span>
                 <button onclick="adjustAdminDeviceLimit(1)" class="w-7 h-7 rounded-lg glass-box font-bold hover:bg-white/10">+</button>
               </div>
             </div>
             <div id="admin-device-list" class="space-y-1.5 pt-2 border-t border-white/5"></div>
           </div>
 
+          <!-- Motivation Broadcast -->
           <div class="glass-box p-4 rounded-xl space-y-2">
             <h3 class="font-bold text-amber-400 uppercase">Motivation Broadcast</h3>
             <div class="flex gap-2">
@@ -526,6 +560,7 @@
             </div>
           </div>
 
+          <!-- Export and Backups -->
           <div class="glass-box p-4 rounded-xl flex flex-wrap gap-2">
             <button onclick="exportDailyReportJPG()" class="px-3 py-1.5 bg-blue-600 text-white font-bold rounded-xl flex items-center gap-1">
               <i data-lucide="file-image" class="w-3.5 h-3.5"></i> Report (JPEG)
@@ -545,7 +580,7 @@
       `;
     }
 
-    // BUILD MEMBER DOM
+    // ================= BUILD MEMBER WORKSPACE DOM =================
     function buildMemberDOM(container, user) {
       container.className = "max-w-md mx-auto px-4 space-y-4 pb-20 text-xs";
       container.innerHTML = `
@@ -564,9 +599,12 @@
             </div>
           </div>
 
-          <button onclick="memberPunchShowPlan()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-purple-600/20">
-            <i data-lucide="map-pin" class="w-4 h-4"></i> Show Plan Punch (GPS Verify)
-          </button>
+          <!-- GPS Show Plan (Conditional) -->
+          <div id="member-gps-box" style="display: ${systemConfig.gpsEnabled ? 'block' : 'none'};">
+            <button onclick="memberPunchShowPlan()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-purple-600/20">
+              <i data-lucide="map-pin" class="w-4 h-4"></i> Show Plan Punch (GPS Verify)
+            </button>
+          </div>
 
           <div class="grid grid-cols-3 gap-2 text-center">
             <div class="glass-box p-2.5 rounded-xl"><span class="text-[10px] text-slate-400 block uppercase">Target</span><span class="font-bold text-white">${user.target || 0}</span></div>
@@ -601,15 +639,8 @@
             </form>
           </div>
 
-          <div class="glass-box p-3.5 rounded-xl space-y-2">
-            <span class="font-bold text-slate-400 text-[10px] block uppercase">Tomorrow's Planner</span>
-            <div class="flex gap-2">
-              <input type="text" id="planner-target" placeholder="Kal kisse milna hai?" class="glass-input flex-1 p-2 rounded-xl" />
-              <button onclick="alert('Next-Day Plan saved!')" class="px-3 py-2 glass-box font-bold rounded-xl">Save</button>
-            </div>
-          </div>
-
-          <div class="glass-box p-3.5 rounded-xl space-y-2 border-red-500/20">
+          <!-- No Progress Form (Conditional) -->
+          <div id="member-noprogress-box" style="display: ${systemConfig.noProgressEnabled ? 'block' : 'none'};" class="glass-box p-3.5 rounded-xl space-y-2 border-red-500/20">
             <span class="font-bold text-red-400 text-[10px] block uppercase">Aaj Kaam Nahi Hua? (Reason)</span>
             <form id="member-noprogress-form" class="space-y-2">
               <select id="np-reason" class="glass-input w-full p-2 rounded-xl">
@@ -640,7 +671,7 @@
         </div>
 
         <div id="member-content-sales" class="hidden space-y-3">
-          <div class="glass-box p-4 rounded-xl space-y-2.5">
+          <div id="member-sale-box" style="display: ${systemConfig.bvEnabled ? 'block' : 'none'};" class="glass-box p-4 rounded-xl space-y-2.5">
             <span class="font-bold text-emerald-400 text-[10px] block uppercase">Product Sale & BV Entry</span>
             <form id="member-sale-form" class="space-y-2">
               <input type="text" id="sale-product" required placeholder="Product Name" class="glass-input w-full p-2 rounded-xl" />
@@ -697,7 +728,7 @@
       setupMemberFormEvents();
     }
 
-    // ================= ADMIN ACTIONS =================
+    // ================= ADMIN LOGIC & EVENT HANDLERS =================
     function switchAdminTab(tab) {
       ['radar', 'roster', 'approvals', 'leaderboard', 'settings'].forEach(t => {
         document.getElementById(`admin-content-${t}`).classList.add('hidden');
@@ -765,6 +796,14 @@
       lucide.createIcons();
     }
 
+    function toggleSystemFeature(feat, val) {
+      if (feat === 'gps') systemConfig.gpsEnabled = val;
+      if (feat === 'bv') systemConfig.bvEnabled = val;
+      if (feat === 'otp') systemConfig.otpEnabled = val;
+      if (feat === 'noprogress') systemConfig.noProgressEnabled = val;
+      saveDB();
+    }
+
     function adjustAdminDeviceLimit(delta) {
       let current = systemConfig.maxAdminDevices || 2;
       current = Math.max(1, current + delta);
@@ -777,6 +816,7 @@
     function renderAdminDevices() {
       const admin = users.find(u => u.role === "admin");
       const list = document.getElementById("admin-device-list");
+      if (!list) return;
       document.getElementById("setting-max-device-count").textContent = systemConfig.maxAdminDevices || 2;
       list.innerHTML = "";
       (admin.authorizedDevices || []).forEach((dev, idx) => {
@@ -966,7 +1006,7 @@
       alert("Password updated!");
     }
 
-    // ================= MEMBER HANDLERS =================
+    // ================= MEMBER WORKSPACE LOGIC =================
     function switchMemberTab(tab) {
       ['workspace', 'diary', 'sales', 'toolkit', 'reports'].forEach(t => {
         document.getElementById(`member-content-${t}`).classList.add('hidden');
@@ -1100,7 +1140,7 @@
 
     function verifyReportOTP() {
       const entered = document.getElementById("entered-otp").value.trim();
-      if (entered === systemConfig.activeOTP) {
+      if (entered === systemConfig.activeOTP || !systemConfig.otpEnabled) {
         document.getElementById("otp-lock-screen").classList.add("hidden");
         document.getElementById("otp-unlocked-screen").classList.remove("hidden");
         const list = document.getElementById("member-gps-logs-list");
@@ -1114,7 +1154,7 @@
       } else alert("Galat OTP!");
     }
 
-    // ================= EXPORT ENGINES =================
+    // ================= EXPORT JPEG / JPG & BACKUP ENGINES =================
     function exportDailyReportJPG() {
       const target = document.getElementById("admin-daily-report-card");
       html2canvas(target, { backgroundColor: '#090d16', scale: 2 }).then(cv => {
