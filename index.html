@@ -3,21 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hemant Team Management - Master Portal</title>
-  
-  <!-- Tailwind CSS CDN -->
+  <title>Vanguard One - Master Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Modern Vector Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- html2canvas for High-Quality JPEG Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     body {
       background-color: #090d16;
-      background-image: 
-        radial-gradient(at top center, rgba(30, 58, 138, 0.22) 0%, transparent 65%),
-        radial-gradient(at bottom right, rgba(88, 28, 135, 0.15) 0%, transparent 50%);
+      background-image: radial-gradient(at top center, rgba(30, 58, 138, 0.25) 0%, transparent 70%);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #f1f5f9;
       min-height: 100vh;
@@ -42,17 +36,59 @@
       border: 1px solid rgba(59, 130, 246, 0.4);
       color: #60a5fa;
     }
+    /* Brand Splash Animation */
+    #splash-screen {
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .logo-glow {
+      filter: drop-shadow(0 0 16px rgba(59, 130, 246, 0.65));
+    }
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 999px; }
   </style>
 </head>
 <body class="selection:bg-blue-600 selection:text-white pb-20">
 
+  <!-- ================= SPLASH OPENING SCREEN ================= -->
+  <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#090d16]">
+    <div class="text-center space-y-4 animate-pulse">
+      <!-- Modern Geometric SVG Emblem -->
+      <div class="w-20 h-20 mx-auto logo-glow">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <polygon points="50,10 90,32 90,68 50,90 10,68 10,32" stroke="url(#blueGrad)" stroke-width="4" fill="rgba(30, 58, 138, 0.25)" />
+          <polygon points="50,22 80,40 80,60 50,78 20,60 20,40" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
+          <path d="M50 32 L68 62 H32 Z" fill="url(#cyanGrad)" />
+          <defs>
+            <linearGradient id="blueGrad" x1="0" y1="0" x2="100" y2="100">
+              <stop offset="0%" stop-color="#60a5fa" />
+              <stop offset="100%" stop-color="#4f46e5" />
+            </linearGradient>
+            <linearGradient id="cyanGrad" x1="50" y1="32" x2="50" y2="62">
+              <stop offset="0%" stop-color="#38bdf8" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-2xl font-black tracking-widest text-white uppercase">VANGUARD ONE</h1>
+        <p class="text-[10px] tracking-widest text-blue-400 font-bold uppercase mt-1">Autonomous Team OS</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCREEN 1: FIRST TIME ADMIN SETUP ================= -->
   <div id="setup-section" class="hidden min-h-screen flex items-center justify-center p-4">
-    <div class="glass-box w-full max-w-md rounded-2xl p-7 relative shadow-2xl">
+    <div class="glass-box w-full max-w-md rounded-2xl p-7 relative">
       <div class="text-center mb-6">
-        <h1 class="text-xl font-black text-white uppercase tracking-wider">Hemant Team Management</h1>
-        <p class="text-xs text-blue-400 mt-1">Super Admin First-Time Setup</p>
+        <div class="w-12 h-12 mx-auto mb-2 logo-glow">
+          <svg viewBox="0 0 100 100" fill="none" class="w-full h-full">
+            <polygon points="50,10 90,32 90,68 50,90 10,68 10,32" stroke="#60a5fa" stroke-width="5" fill="rgba(30, 58, 138, 0.3)" />
+            <path d="M50 32 L68 62 H32 Z" fill="#38bdf8" />
+          </svg>
+        </div>
+        <h1 class="text-xl font-black text-white uppercase tracking-wider">Vanguard One</h1>
+        <p class="text-xs text-blue-400 mt-1">Super Admin Account Setup</p>
       </div>
       <form id="setup-form" class="space-y-3.5 text-xs">
         <div>
@@ -61,8 +97,8 @@
         </div>
         <div>
           <label class="font-bold text-amber-400 block mb-1 uppercase">Master Verification Mobile Number</label>
-          <input type="tel" id="setup-phone" required placeholder="10-digit Phone Number" class="glass-input w-full px-3.5 py-2 rounded-xl border-amber-500/30 font-mono" />
-          <p class="text-[10px] text-slate-400 mt-1">Kisi bhi naye device me master panel authorize karne ke liye isi number se verify hoga.</p>
+          <input type="tel" id="setup-phone" required placeholder="10-digit Phone" class="glass-input w-full px-3.5 py-2 rounded-xl border-amber-500/30" />
+          <p class="text-[10px] text-slate-400 mt-1">Naye device me Master Admin register karne ke liye isi number se verify hoga.</p>
         </div>
         <div>
           <label class="font-bold text-slate-400 block mb-1 uppercase">City / Branch</label>
@@ -78,18 +114,25 @@
             <input type="password" id="setup-password" required placeholder="••••••" class="glass-input w-full px-3.5 py-2 rounded-xl" />
           </div>
         </div>
-        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl mt-2 transition shadow-lg shadow-blue-600/30">
+        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl mt-2 transition">
           Master Activate Karein
         </button>
       </form>
     </div>
   </div>
 
+  <!-- ================= SCREEN 2: LOGIN PORTAL ================= -->
   <div id="login-section" class="hidden min-h-screen flex items-center justify-center p-4">
-    <div class="glass-box w-full max-w-sm rounded-2xl p-7 shadow-2xl">
+    <div class="glass-box w-full max-w-sm rounded-2xl p-7 relative">
       <div class="text-center mb-6">
-        <h1 class="text-xl font-black text-white uppercase tracking-wider">Hemant Team Management</h1>
-        <p class="text-xs text-slate-400 mt-1">Authorized Team Login</p>
+        <div class="w-14 h-14 mx-auto mb-2 logo-glow">
+          <svg viewBox="0 0 100 100" fill="none" class="w-full h-full">
+            <polygon points="50,10 90,32 90,68 50,90 10,68 10,32" stroke="#60a5fa" stroke-width="5" fill="rgba(30, 58, 138, 0.3)" />
+            <path d="M50 32 L68 62 H32 Z" fill="#38bdf8" />
+          </svg>
+        </div>
+        <h1 class="text-xl font-black text-white uppercase tracking-wider">VANGUARD ONE</h1>
+        <p class="text-xs text-slate-400 mt-1">Sign In to Continue</p>
       </div>
 
       <div id="login-error" class="hidden mb-3 p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs text-center font-medium"></div>
@@ -97,39 +140,39 @@
       <form id="login-form" class="space-y-3.5 text-xs">
         <div>
           <label class="font-bold text-slate-400 block mb-1 uppercase">User ID</label>
-          <input type="text" id="login-username" required placeholder="Aapka ID daalein" class="glass-input w-full px-3.5 py-2.5 rounded-xl" />
+          <input type="text" id="login-username" required placeholder="Aapka ID" class="glass-input w-full px-3.5 py-2.5 rounded-xl" />
         </div>
         <div>
           <label class="font-bold text-slate-400 block mb-1 uppercase">Password</label>
           <input type="password" id="login-password" required placeholder="••••••" class="glass-input w-full px-3.5 py-2.5 rounded-xl" />
         </div>
-        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition shadow-lg shadow-blue-600/30 mt-2">
+        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition mt-2">
           Login Portal
         </button>
       </form>
-
-      <!-- Hardware Device ID indicator -->
-      <div class="mt-5 pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-500">
-        <span>Device ID: <strong id="login-device-badge" class="text-blue-400 font-mono"></strong></span>
-        <button type="button" onclick="copyCurrentDeviceId()" class="hover:text-slate-300 transition flex items-center gap-1">
-          <i data-lucide="copy" class="w-3 h-3"></i> Copy
-        </button>
-      </div>
     </div>
   </div>
 
+  <!-- ================= SCREEN 3: DASHBOARD CONTAINER ================= -->
   <div id="dashboard-section" class="hidden">
     <header class="sticky top-0 z-40 glass-box border-b border-white/5 px-4 sm:px-8 py-3 flex items-center justify-between">
-      <div>
-        <h1 class="text-sm font-bold text-white tracking-wide">Hemant Team Management</h1>
-        <p class="text-[11px] text-slate-400"><span id="header-user-role" class="capitalize text-blue-400 font-semibold"></span>: <span id="header-user-name"></span></p>
+      <div class="flex items-center space-x-3">
+        <div class="w-7 h-7 logo-glow shrink-0">
+          <svg viewBox="0 0 100 100" fill="none" class="w-full h-full">
+            <polygon points="50,10 90,32 90,68 50,90 10,68 10,32" stroke="#60a5fa" stroke-width="6" fill="rgba(30, 58, 138, 0.4)" />
+            <path d="M50 32 L68 62 H32 Z" fill="#38bdf8" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-sm font-black text-white tracking-wide uppercase">Vanguard One</h1>
+          <p class="text-[11px] text-slate-400"><span id="header-user-role" class="capitalize text-blue-400 font-semibold"></span>: <span id="header-user-name"></span></p>
+        </div>
       </div>
       <button id="logout-btn" class="px-3 py-1.5 rounded-xl glass-box hover:bg-red-500/10 text-slate-300 hover:text-red-400 text-xs transition flex items-center gap-1.5">
         <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Logout
       </button>
     </header>
 
-    <!-- Motivation Banner -->
     <div class="max-w-6xl mx-auto px-4 sm:px-8 pt-3">
       <div class="py-2 px-3.5 rounded-xl glass-box border-amber-500/20 text-xs flex items-center gap-2">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
@@ -137,29 +180,28 @@
       </div>
     </div>
 
-    <!-- Dynamic Role Container (Constructed via JS) -->
     <main id="dynamic-role-container" class="pt-4"></main>
   </div>
 
-  <!-- Master Verification Mobile Modal for New Admin Devices -->
+  <!-- ================= MODAL: MASTER DEVICE REGISTRATION ================= -->
   <div id="master-number-verify-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-box max-w-sm w-full p-6 rounded-2xl text-center space-y-4 border border-amber-500/30 shadow-2xl">
+    <div class="glass-box max-w-sm w-full p-6 rounded-2xl text-center space-y-4 border border-amber-500/30">
       <div class="h-12 w-12 bg-amber-500/20 border border-amber-500/40 rounded-2xl flex items-center justify-center mx-auto text-amber-400">
         <i data-lucide="smartphone" class="w-6 h-6"></i>
       </div>
-      <h3 class="text-sm font-black text-white uppercase tracking-wider">New Master Device Verification</h3>
-      <p class="text-xs text-slate-300">Yeh naya device registered nahi hai. Master Portal unlock karne ke liye apna <strong>Master Verification Mobile Number</strong> daalein:</p>
+      <h3 class="text-sm font-black text-white uppercase tracking-wider">Authorize Master Device</h3>
+      <p class="text-xs text-slate-300">Yeh naya device Master Portal ke liye authorize nahi hai. Apna registered <strong>Master Mobile Number</strong> daalein:</p>
       <input type="tel" id="entered-master-phone" placeholder="Registered 10-digit number" class="glass-input w-full p-2.5 rounded-xl text-center text-sm font-mono tracking-wider text-amber-300" />
       <div class="flex gap-2 pt-1">
         <button onclick="closeModal('master-number-verify-modal')" class="flex-1 py-2 glass-box rounded-xl text-xs">Cancel</button>
-        <button onclick="confirmMasterDeviceUnlock()" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs">Verify & Register</button>
+        <button onclick="confirmMasterDeviceUnlock()" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs">Verify & Bind</button>
       </div>
     </div>
   </div>
 
-  <!-- Add Member Modal -->
+  <!-- ================= MODAL: ADD MEMBER ================= -->
   <div id="add-member-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-box max-w-md w-full p-6 rounded-2xl space-y-3 shadow-2xl">
+    <div class="glass-box max-w-md w-full p-6 rounded-2xl space-y-3">
       <div class="flex justify-between items-center border-b border-white/5 pb-2">
         <h3 class="text-xs font-bold text-white uppercase">Naya Member Add Karein</h3>
         <button onclick="closeModal('add-member-modal')" class="text-slate-400 hover:text-white">✕</button>
@@ -175,8 +217,8 @@
           <input type="number" id="m-bv" placeholder="Starting BV" value="0" class="glass-input p-2 rounded-xl text-emerald-400 font-bold" />
         </div>
         <div>
-          <label class="text-[10px] text-slate-400 block mb-1">Specific Device ID Bind (Optional)</label>
-          <input type="text" id="m-pre-device" placeholder="DEV_123456 (Khali chhodne par pehle login par bind hoga)" class="glass-input w-full p-2 rounded-xl font-mono text-[11px]" />
+          <label class="text-[10px] text-slate-400 block mb-1">Specific Device ID Pre-Register (Optional)</label>
+          <input type="text" id="m-pre-device" placeholder="e.g. DEV_123456 (Khali chhodne par pehle login par bind hoga)" class="glass-input w-full p-2 rounded-xl font-mono text-[11px]" />
         </div>
         <div>
           <label class="text-[10px] text-slate-400 block mb-1">Profile Photo</label>
@@ -194,11 +236,11 @@
     </div>
   </div>
 
-  <!-- Member Control Drawer Modal -->
+  <!-- ================= MODAL: MEMBER DRAWER ================= -->
   <div id="member-drawer-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="glass-box max-w-sm w-full p-6 rounded-2xl space-y-4 shadow-2xl">
+    <div class="glass-box max-w-sm w-full p-6 rounded-2xl space-y-4">
       <div class="flex justify-between items-center border-b border-white/5 pb-2">
-        <h3 class="text-xs font-bold text-white uppercase">Member Control & Security</h3>
+        <h3 class="text-xs font-bold text-white uppercase">Member Management</h3>
         <button onclick="closeModal('member-drawer-modal')" class="text-slate-400 hover:text-white">✕</button>
       </div>
       <div class="flex items-center space-x-3">
@@ -229,6 +271,7 @@
     </div>
   </div>
 
+  <!-- ================= JAVASCRIPT SYSTEM ENGINE ================= -->
   <script>
     let users = JSON.parse(localStorage.getItem("hmt_users")) || [];
     let pendingBV = JSON.parse(localStorage.getItem("hmt_pending_bv")) || [];
@@ -254,17 +297,6 @@
       return devId;
     }
 
-    function copyCurrentDeviceId() {
-      const dev = getDeviceFingerprint();
-      const el = document.createElement("textarea");
-      el.value = dev;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-      alert("Device ID copied: " + dev);
-    }
-
     function saveDB() {
       localStorage.setItem("hmt_users", JSON.stringify(users));
       localStorage.setItem("hmt_pending_bv", JSON.stringify(pendingBV));
@@ -281,10 +313,16 @@
     function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
 
     function initApp() {
+      // Smooth Splash Screen Timeout (1.6 Seconds)
+      setTimeout(() => {
+        const splash = document.getElementById("splash-screen");
+        if (splash) {
+          splash.style.opacity = '0';
+          setTimeout(() => splash.style.display = 'none', 500);
+        }
+      }, 1600);
+
       const admin = users.find(u => u.role === "admin");
-      const currentDev = getDeviceFingerprint();
-      const devBadge = document.getElementById("login-device-badge");
-      if (devBadge) devBadge.textContent = currentDev;
       document.getElementById("motivation-text-display").textContent = `"${systemConfig.motivation}"`;
 
       if (!admin) {
@@ -303,6 +341,7 @@
       lucide.createIcons();
     }
 
+    // Admin Master Setup
     document.getElementById("setup-form").addEventListener("submit", (e) => {
       e.preventDefault();
       const currentDev = getDeviceFingerprint();
@@ -323,6 +362,7 @@
       showDashboard(admin);
     });
 
+    // Login Form with Seamless Role Detection
     document.getElementById("login-form").addEventListener("submit", (e) => {
       e.preventDefault();
       const err = document.getElementById("login-error");
@@ -338,12 +378,12 @@
         return;
       }
       if (user.status === "Inactive") {
-        err.textContent = "Aapka account Blocked hai! Admin se sampark karein.";
+        err.textContent = "Aapka account Blocked hai!";
         err.classList.remove("hidden");
         return;
       }
 
-      // 1. MASTER ADMIN FLOW
+      // 1. ADMIN AUTHORIZATION
       if (user.role === "admin") {
         let authDevices = user.authorizedDevices || [];
         if (authDevices.includes(currentDev)) {
@@ -352,17 +392,16 @@
         }
         const maxAllowed = systemConfig.maxAdminDevices || 2;
         if (authDevices.length >= maxAllowed) {
-          err.textContent = `Master Device Limit Exceeded! Maximum ${maxAllowed} devices allowed. Settings me ja kar limit badhayein ya purana slot revoke karein.`;
+          err.textContent = `Master Device Limit Exceeded! Max ${maxAllowed} devices allowed. Settings me limit badhayein ya purana device revoke karein.`;
           err.classList.remove("hidden");
           return;
         }
-        // Prompt for Master Phone verification on new device
         pendingAdminUser = user;
         openModal("master-number-verify-modal");
         return;
       }
 
-      // 2. MEMBER FLOW (1-DEVICE LOCK)
+      // 2. MEMBER 1-DEVICE POLICY
       if (user.role === "member") {
         if (!user.boundDeviceId) {
           user.boundDeviceId = currentDev;
@@ -373,7 +412,7 @@
         if (user.boundDeviceId === currentDev) {
           showDashboard(user);
         } else {
-          err.textContent = "Device Mismatch: Aap apni ID kisi doosre phone me nahi chala sakte! Reset ke liye Admin se sampark karein.";
+          err.textContent = "Device Mismatch: Dusre phone me login allow nahi hai! Admin se reset karwayein.";
           err.classList.remove("hidden");
         }
       }
@@ -386,7 +425,7 @@
         pendingAdminUser.authorizedDevices = [...(pendingAdminUser.authorizedDevices || []), currentDev];
         saveDB();
         closeModal("master-number-verify-modal");
-        alert("Mobile number verified! Yeh device Master Control ke liye authorize ho gaya.");
+        alert("Mobile verified! Yeh device Master Control ke liye bind ho gaya.");
         showDashboard(pendingAdminUser);
       } else {
         alert("Galat Mobile Number! Kripya registered master number daalein.");
@@ -420,6 +459,7 @@
       lucide.createIcons();
     }
 
+    // ================= BUILD ADMIN MASTER DOM =================
     function buildAdminDOM(container) {
       container.className = "max-w-6xl mx-auto px-4 sm:px-8 space-y-5";
       container.innerHTML = `
@@ -442,15 +482,15 @@
           </button>
         </div>
 
-        <!-- RADAR TAB (WITH JPEG REPORT CARD EXPORT) -->
+        <!-- RADAR TAB -->
         <div id="admin-content-radar" class="space-y-4">
           <div id="admin-no-progress-alerts" class="space-y-2"></div>
 
-          <!-- Printable / Exportable Daily Operations Card -->
+          <!-- Printable Daily Report Card -->
           <div id="admin-daily-report-card" class="glass-box p-5 rounded-2xl space-y-4">
             <div class="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
-                <h2 class="text-sm font-black text-white uppercase tracking-wider">Hemant Team Management - Daily Operations Summary</h2>
+                <h2 class="text-sm font-black text-white uppercase tracking-wider">Vanguard One - Operations Summary</h2>
                 <p class="text-[11px] text-slate-400" id="report-card-date"></p>
               </div>
               <button onclick="exportDailyReportJPG()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md shadow-blue-600/20">
@@ -529,7 +569,7 @@
         <!-- LEADERBOARD TAB -->
         <div id="admin-content-leaderboard" class="hidden space-y-4 text-xs">
           <div id="leaderboard-poster" class="glass-box p-6 rounded-2xl text-center space-y-4">
-            <h2 class="text-lg font-black text-white uppercase tracking-wider">HEMANT TEAM CHAMPIONS</h2>
+            <h2 class="text-lg font-black text-white uppercase tracking-wider">VANGUARD ONE CHAMPIONS</h2>
             <div class="grid grid-cols-3 gap-2 pt-2">
               <div class="glass-box p-3 rounded-xl"><div class="text-xl">🥇</div><div class="text-[10px] text-amber-400 uppercase font-bold">Top Closer</div><div id="podium-closer" class="font-bold text-white mt-1">-</div></div>
               <div class="glass-box p-3 rounded-xl"><div class="text-xl">🥈</div><div class="text-[10px] text-purple-400 uppercase font-bold">Plans King</div><div id="podium-plans" class="font-bold text-white mt-1">-</div></div>
@@ -541,13 +581,12 @@
           </button>
         </div>
 
-        <!-- SETTINGS TAB (MASTER SWITCHES + DEVICE LIMIT SLOTS) -->
+        <!-- SETTINGS TAB -->
         <div id="admin-content-settings" class="hidden space-y-4 text-xs">
-          
-          <!-- Master System Feature Toggles -->
+          <!-- Feature Switches -->
           <div class="glass-box p-4 rounded-xl space-y-3">
             <h3 class="font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
-              <i data-lucide="toggle-left" class="w-4 h-4"></i> Master System Feature Controls (On / Off)
+              <i data-lucide="toggle-left" class="w-4 h-4"></i> Master Feature Controls (On / Off)
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <label class="flex items-center justify-between p-3 glass-input rounded-xl cursor-pointer">
@@ -574,12 +613,19 @@
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-white uppercase">Master Device Slots Limit</h3>
-                <p class="text-[11px] text-slate-400">Kitne phones/laptops me master panel khol sakte hain</p>
+                <p class="text-[11px] text-slate-400">Kitne devices me master panel authorize ho sakta hai</p>
               </div>
               <div class="flex items-center gap-2">
                 <button onclick="adjustAdminDeviceLimit(-1)" class="w-7 h-7 rounded-lg glass-box font-bold hover:bg-white/10">-</button>
                 <span id="setting-max-device-count" class="font-mono text-sm font-bold text-blue-400">${systemConfig.maxAdminDevices || 2}</span>
                 <button onclick="adjustAdminDeviceLimit(1)" class="w-7 h-7 rounded-lg glass-box font-bold hover:bg-white/10">+</button>
+              </div>
+            </div>
+            <div class="pt-2 border-t border-white/5 space-y-2">
+              <span class="text-slate-300 font-bold block">Manually Authorize Master Device ID:</span>
+              <div class="flex gap-2">
+                <input type="text" id="manual-admin-device-input" placeholder="e.g. DEV_987654" class="glass-input flex-1 px-3 py-1.5 rounded-xl font-mono text-[11px]" />
+                <button onclick="adminAddManualDevice()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs">+ Register Device</button>
               </div>
             </div>
             <div id="admin-device-list" class="space-y-1.5 pt-2 border-t border-white/5"></div>
@@ -594,7 +640,7 @@
             </div>
           </div>
 
-          <!-- Export and Backups -->
+          <!-- Backups & Exports -->
           <div class="glass-box p-4 rounded-xl flex flex-wrap gap-2">
             <button onclick="exportDailyReportJPG()" class="px-3 py-1.5 bg-blue-600 text-white font-bold rounded-xl flex items-center gap-1">
               <i data-lucide="file-image" class="w-3.5 h-3.5"></i> Report (JPEG)
@@ -614,6 +660,7 @@
       `;
     }
 
+    // ================= BUILD MEMBER WORKSPACE DOM =================
     function buildMemberDOM(container, user) {
       container.className = "max-w-md mx-auto px-4 space-y-4 pb-20 text-xs";
       container.innerHTML = `
@@ -632,7 +679,6 @@
             </div>
           </div>
 
-          <!-- GPS Show Plan (Conditional) -->
           <div id="member-gps-box" style="display: ${systemConfig.gpsEnabled ? 'block' : 'none'};">
             <button onclick="memberPunchShowPlan()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-purple-600/20">
               <i data-lucide="map-pin" class="w-4 h-4"></i> Show Plan Punch (GPS Verify)
@@ -672,15 +718,6 @@
             </form>
           </div>
 
-          <div class="glass-box p-3.5 rounded-xl space-y-2">
-            <span class="font-bold text-slate-400 text-[10px] block uppercase">Tomorrow's Planner</span>
-            <div class="flex gap-2">
-              <input type="text" id="planner-target" placeholder="Kal kisse milna hai?" class="glass-input flex-1 p-2 rounded-xl" />
-              <button onclick="alert('Next-Day Plan saved!')" class="px-3 py-2 glass-box font-bold rounded-xl">Save</button>
-            </div>
-          </div>
-
-          <!-- No Progress Form (Conditional) -->
           <div id="member-noprogress-box" style="display: ${systemConfig.noProgressEnabled ? 'block' : 'none'};" class="glass-box p-3.5 rounded-xl space-y-2 border-red-500/20">
             <span class="font-bold text-red-400 text-[10px] block uppercase">Aaj Kaam Nahi Hua? (Reason)</span>
             <form id="member-noprogress-form" class="space-y-2">
@@ -758,7 +795,6 @@
           </div>
         </div>
 
-        <!-- Fixed Bottom App Navigation Bar -->
         <div class="fixed bottom-2 left-2 right-2 max-w-sm mx-auto glass-box p-1 rounded-xl flex justify-between gap-1 shadow-2xl z-40">
           <button onclick="switchMemberTab('workspace')" id="mtab-workspace" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center tab-active"><i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>Work</button>
           <button onclick="switchMemberTab('diary')" id="mtab-diary" class="flex-1 py-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center text-slate-400"><i data-lucide="book-open" class="w-3.5 h-3.5"></i>Diary</button>
@@ -770,6 +806,7 @@
       setupMemberFormEvents();
     }
 
+    // ================= ADMIN ACTIONS =================
     function switchAdminTab(tab) {
       ['radar', 'roster', 'approvals', 'leaderboard', 'settings'].forEach(t => {
         document.getElementById(`admin-content-${t}`).classList.add('hidden');
@@ -854,6 +891,21 @@
       alert(`Master device limit set to ${current}!`);
     }
 
+    function adminAddManualDevice() {
+      const dev = document.getElementById("manual-admin-device-input").value.trim();
+      if (!dev) return;
+      const admin = users.find(u => u.role === "admin");
+      if ((admin.authorizedDevices || []).includes(dev)) {
+        alert("Yeh Device ID pehle se registered hai!");
+        return;
+      }
+      admin.authorizedDevices = [...(admin.authorizedDevices || []), dev];
+      saveDB();
+      document.getElementById("manual-admin-device-input").value = "";
+      renderAdminDevices();
+      alert("Device ID [" + dev + "] Master Authorized list me jud gaya!");
+    }
+
     function renderAdminDevices() {
       const admin = users.find(u => u.role === "admin");
       const list = document.getElementById("admin-device-list");
@@ -864,7 +916,7 @@
         const div = document.createElement("div");
         div.className = "p-2 rounded-lg glass-input flex items-center justify-between text-xs";
         div.innerHTML = `
-          <span><strong>Device #${idx+1}</strong>: <span class="font-mono text-slate-400 text-[10px]">${dev}</span></span>
+          <span><strong>Slot #${idx+1}</strong>: <span class="font-mono text-slate-400 text-[10px]">${dev}</span></span>
           ${idx > 0 ? `<button onclick="adminRevokeDevice(${idx})" class="px-2 py-0.5 bg-red-600/20 text-red-300 rounded text-[10px] font-bold">Remove</button>` : `<span class="text-emerald-400 text-[10px] font-bold">Primary</span>`}
         `;
         list.appendChild(div);
@@ -1063,6 +1115,7 @@
       alert("Password updated!");
     }
 
+    // ================= MEMBER WORKSPACE LOGIC =================
     function switchMemberTab(tab) {
       ['workspace', 'diary', 'sales', 'toolkit', 'reports'].forEach(t => {
         document.getElementById(`member-content-${t}`).classList.add('hidden');
@@ -1210,11 +1263,12 @@
       } else alert("Galat OTP!");
     }
 
+    // ================= EXPORT JPEG / JPG & BACKUP ENGINES =================
     function exportDailyReportJPG() {
       const target = document.getElementById("admin-daily-report-card");
       html2canvas(target, { backgroundColor: '#090d16', scale: 2 }).then(cv => {
         const a = document.createElement("a");
-        a.download = `Hemant_Team_Daily_Report_${new Date().toISOString().slice(0,10)}.jpg`;
+        a.download = `Vanguard_One_Report_${new Date().toISOString().slice(0,10)}.jpg`;
         a.href = cv.toDataURL("image/jpeg", 0.95);
         a.click();
       });
@@ -1232,7 +1286,7 @@
     function exportLeaderboardJPG() {
       html2canvas(document.getElementById("leaderboard-poster"), { backgroundColor: '#090d16', scale: 2 }).then(cv => {
         const a = document.createElement("a");
-        a.download = `Hemant_Team_Champions.jpg`;
+        a.download = `Vanguard_One_Champions.jpg`;
         a.href = cv.toDataURL("image/jpeg", 0.95);
         a.click();
       });
@@ -1242,7 +1296,7 @@
       const blob = new Blob([JSON.stringify({ users, pendingBV, systemConfig }, null, 2)], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `Hemant_Team_Backup_${new Date().toISOString().slice(0,10)}.json`;
+      a.download = `Vanguard_One_Backup_${new Date().toISOString().slice(0,10)}.json`;
       a.click();
     }
 
@@ -1274,7 +1328,7 @@
       const blob = new Blob([csv], { type: "text/csv" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `Hemant_Team_Daily_Report.csv`;
+      a.download = `Vanguard_One_Daily_Report.csv`;
       a.click();
     }
 
