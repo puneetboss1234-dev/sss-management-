@@ -65,7 +65,7 @@
 </head>
 <body class="selection:bg-blue-600 selection:text-white pb-28">
 
-  <!-- ================= SPLASH OPENING SCREEN ================= -->
+  <!-- SPLASH SCREEN -->
   <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-between py-12 px-4 bg-[#070b14]">
     <div></div>
     <div class="text-center space-y-4 animate-pulse">
@@ -98,7 +98,7 @@
     </div>
   </div>
 
-  <!-- ================= MEMBER LOGIN ================= -->
+  <!-- MEMBER LOGIN -->
   <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
     <div class="glass-box w-full max-w-sm rounded-2xl p-7 relative">
       <div class="text-center mb-6">
@@ -134,7 +134,7 @@
     </div>
   </div>
 
-  <!-- ================= MEMBER DASHBOARD ================= -->
+  <!-- MEMBER DASHBOARD -->
   <div id="dashboard-section" class="hidden">
     <header class="sticky top-0 z-30 glass-box border-b border-white/5 px-4 sm:px-8 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
@@ -154,7 +154,7 @@
       </button>
     </header>
 
-    <!-- BOLD MOTIVATION BANNER -->
+    <!-- MOTIVATION BANNER -->
     <div class="max-w-md mx-auto px-4 pt-4">
       <div class="glass-box p-4 rounded-2xl border-2 border-amber-500/30 banner-glow bg-gradient-to-r from-amber-500/10 via-slate-900/40 to-blue-500/10 flex items-center gap-3">
         <div class="p-2 rounded-xl bg-amber-500/20 text-amber-400 shrink-0">
@@ -181,10 +181,10 @@
       </div>
     </div>
 
-    <!-- MAIN APP TABS CONTAINER -->
+    <!-- TABS CONTENT -->
     <main class="max-w-md mx-auto px-4 pt-4 space-y-4 text-xs">
       
-      <!-- TAB 1: WORKSPACE -->
+      <!-- WORKSPACE TAB -->
       <div id="tab-content-workspace" class="space-y-4">
         <div class="glass-box p-4 rounded-2xl flex items-center justify-between">
           <div class="flex items-center space-x-3">
@@ -254,7 +254,7 @@
         </div>
       </div>
 
-      <!-- TAB 2: PROSPECT DIARY -->
+      <!-- PROSPECT DIARY TAB -->
       <div id="tab-content-diary" class="hidden space-y-3">
         <div class="glass-box p-3.5 rounded-xl space-y-2">
           <span class="font-bold text-amber-400 text-[10px] block uppercase">Pocket Prospect Diary (+ Lead)</span>
@@ -270,7 +270,7 @@
         <div id="member-prospects-list" class="space-y-2"></div>
       </div>
 
-      <!-- TAB 3: BV SALES -->
+      <!-- BV SALES TAB -->
       <div id="tab-content-sales" class="hidden space-y-3">
         <div id="member-sale-box" class="glass-box p-4 rounded-xl space-y-2.5">
           <span class="font-bold text-emerald-400 text-[10px] block uppercase">Product Sale & BV Entry</span>
@@ -285,7 +285,7 @@
         </div>
       </div>
 
-      <!-- TAB 4: TOOLKIT -->
+      <!-- TOOLKIT TAB -->
       <div id="tab-content-toolkit" class="hidden space-y-3">
         <div id="visiting-card-canvas" class="glass-box p-4 rounded-2xl text-center space-y-2">
           <img id="vc-photo" src="https://via.placeholder.com/80" class="w-16 h-16 rounded-xl object-cover border border-white/10 mx-auto" />
@@ -302,7 +302,7 @@
         </div>
       </div>
 
-      <!-- TAB 5: REPORTS (OTP LOCKED) -->
+      <!-- REPORTS TAB (OTP LOCKED) -->
       <div id="tab-content-reports" class="hidden space-y-3">
         <div class="glass-box p-4 rounded-xl space-y-3 text-center">
           <span class="font-bold text-indigo-400 text-[10px] block uppercase">Reports Unlock Portal</span>
@@ -322,7 +322,7 @@
 
     </main>
 
-    <!-- BOTTOM APP BAR NAVIGATION -->
+    <!-- DOCK NAV -->
     <nav class="fixed bottom-0 left-0 right-0 z-40 dock-nav">
       <div class="max-w-md mx-auto flex items-center justify-around px-2 py-2">
         <button onclick="switchTab('workspace')" id="dock-tab-workspace" class="dock-tab flex-1 flex flex-col items-center gap-1 active">
@@ -349,19 +349,24 @@
     </nav>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
   <script>
-    let users = JSON.parse(localStorage.getItem("hmt_users")) || [];
-    let pendingBV = JSON.parse(localStorage.getItem("hmt_pending_bv")) || [];
-    let systemConfig = JSON.parse(localStorage.getItem("hmt_config")) || {
-      motivation: "Aaj jo mehnat se nahi darega, wahi kal team ka sabse bada leader banega!",
-      broadcastTarget: "Har active associate aaj minimum 3 Plans complete kare!",
-      gpsEnabled: true,
-      bvEnabled: true,
-      otpEnabled: true,
-      noProgressEnabled: true,
-      activeOTP: null
-    };
+    function loadFreshDB() {
+      return {
+        users: JSON.parse(localStorage.getItem("hmt_users")) || [],
+        pendingBV: JSON.parse(localStorage.getItem("hmt_pending_bv")) || [],
+        config: JSON.parse(localStorage.getItem("hmt_config")) || {
+          motivation: "Aaj jo mehnat se nahi darega, wahi kal team ka sabse bada leader banega!",
+          broadcastTarget: "",
+          gpsEnabled: true,
+          bvEnabled: true,
+          otpEnabled: true,
+          noProgressEnabled: true,
+          activeOTP: null
+        }
+      };
+    }
+
+    let { users, pendingBV, config: systemConfig } = loadFreshDB();
     let currentSession = JSON.parse(localStorage.getItem("hmt_member_session")) || null;
 
     function getDeviceFingerprint() {
@@ -388,6 +393,10 @@
         }
       }, 1600);
 
+      const db = loadFreshDB();
+      users = db.users;
+      systemConfig = db.config;
+
       if (currentSession) {
         const fresh = users.find(u => u.id === currentSession.id && u.role === "member");
         if (fresh && fresh.status !== "Inactive") {
@@ -399,11 +408,14 @@
       lucide.createIcons();
     }
 
-    // Login Form Handler
     document.getElementById("member-login-form").addEventListener("submit", (e) => {
       e.preventDefault();
       const err = document.getElementById("login-error");
       err.classList.add("hidden");
+
+      const db = loadFreshDB();
+      users = db.users;
+      systemConfig = db.config;
 
       const u = document.getElementById("login-username").value.trim().toLowerCase();
       const p = document.getElementById("login-password").value.trim();
@@ -411,17 +423,17 @@
 
       const user = users.find(item => item.username.toLowerCase() === u && item.password === p && item.role === "member");
       if (!user) {
-        err.textContent = "Galat Member ID ya Password!";
+        err.textContent = "Galat Member ID ya Password! (Admin se apni ID banwayein)";
         err.classList.remove("hidden");
         return;
       }
       if (user.status === "Inactive") {
-        err.textContent = "Aapka account Blocked hai! Admin se baat karein.";
+        err.textContent = "Aapka account Blocked hai! Admin se sampark karein.";
         err.classList.remove("hidden");
         return;
       }
 
-      // 1-Device Lock Policy
+      // Device Lock
       if (!user.boundDeviceId) {
         user.boundDeviceId = currentDev;
         saveDB();
@@ -446,19 +458,18 @@
       document.getElementById("header-user-name").textContent = user.name;
       document.getElementById("motivation-text-display").textContent = `"${systemConfig.motivation}"`;
 
-      // Broadcast Target
       const bCard = document.getElementById("member-broadcast-target-card");
       if (systemConfig.broadcastTarget) {
         bCard.classList.remove("hidden");
         document.getElementById("member-broadcast-target-text").textContent = systemConfig.broadcastTarget;
+      } else {
+        bCard.classList.add("hidden");
       }
 
-      // Feature toggles
       document.getElementById("member-gps-box").style.display = systemConfig.gpsEnabled ? "block" : "none";
       document.getElementById("member-sale-box").style.display = systemConfig.bvEnabled ? "block" : "none";
       document.getElementById("member-noprogress-box").style.display = systemConfig.noProgressEnabled ? "block" : "none";
 
-      // Profile details
       document.getElementById("member-disp-photo").src = user.photo || "https://via.placeholder.com/80";
       document.getElementById("member-disp-name").textContent = user.name;
       document.getElementById("member-disp-city").textContent = user.city;
@@ -468,7 +479,6 @@
       document.getElementById("member-disp-plans").textContent = user.todayPlans || 0;
       document.getElementById("member-disp-dd").textContent = "₹" + (user.todayDD || 0).toLocaleString("en-IN");
 
-      // Visiting card
       document.getElementById("vc-photo").src = user.photo || "https://via.placeholder.com/80";
       document.getElementById("vc-name").textContent = user.name;
       document.getElementById("vc-phone-city").textContent = `${user.phone} | ${user.city}`;
@@ -492,7 +502,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Forms Handlers
     document.getElementById("member-daily-form").addEventListener("submit", (e) => {
       e.preventDefault();
       const f = Number(document.getElementById("mem-input-followups").value) || 0;
