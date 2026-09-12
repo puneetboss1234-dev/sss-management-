@@ -11,7 +11,7 @@
   <style>
     body {
       background-color: #090d16;
-      background-image: radial-gradient(at top center, rgba(30, 58, 138, 0.25) 0%, transparent 70%);
+      background-image: radial-gradient(at top center, rgba(30, 58, 138, 0.3) 0%, transparent 70%);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #f1f5f9;
       min-height: 100vh;
@@ -36,12 +36,22 @@
       border: 1px solid rgba(59, 130, 246, 0.4);
       color: #60a5fa;
     }
-    /* Brand Splash Animation */
     #splash-screen {
       transition: opacity 0.5s ease, visibility 0.5s ease;
     }
     .logo-glow {
-      filter: drop-shadow(0 0 16px rgba(59, 130, 246, 0.65));
+      filter: drop-shadow(0 0 18px rgba(59, 130, 246, 0.7));
+    }
+    .banner-glow {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+    }
+    .radar-pulse {
+      animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
     }
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 999px; }
@@ -49,11 +59,13 @@
 </head>
 <body class="selection:bg-blue-600 selection:text-white pb-20">
 
-  <!-- ================= SPLASH OPENING SCREEN ================= -->
-  <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#090d16]">
+  <!-- ================= SPLASH OPENING SCREEN (WITH CREATOR ATTRIBUTION) ================= -->
+  <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-between py-12 px-4 bg-[#090d16]">
+    <div></div>
+    
+    <!-- Central Brand Emblem & Identity -->
     <div class="text-center space-y-4 animate-pulse">
-      <!-- Modern Geometric SVG Emblem -->
-      <div class="w-20 h-20 mx-auto logo-glow">
+      <div class="w-24 h-24 mx-auto logo-glow">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
           <polygon points="50,10 90,32 90,68 50,90 10,68 10,32" stroke="url(#blueGrad)" stroke-width="4" fill="rgba(30, 58, 138, 0.25)" />
           <polygon points="50,22 80,40 80,60 50,78 20,60 20,40" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
@@ -71,9 +83,16 @@
         </svg>
       </div>
       <div>
-        <h1 class="text-2xl font-black tracking-widest text-white uppercase">VANGUARD ONE</h1>
-        <p class="text-[10px] tracking-widest text-blue-400 font-bold uppercase mt-1">Autonomous Team OS</p>
+        <h1 class="text-3xl font-black tracking-widest text-white uppercase">VANGUARD ONE</h1>
+        <p class="text-[11px] tracking-widest text-blue-400 font-bold uppercase mt-1">Autonomous Team OS</p>
       </div>
+    </div>
+
+    <!-- Designed By Puneet Kumar Signature -->
+    <div class="text-center">
+      <span class="inline-block px-4 py-1.5 rounded-full glass-box border border-blue-500/30 text-xs font-mono font-semibold tracking-wider text-blue-300">
+        Designed by <strong class="text-white font-bold tracking-wide">Puneet Kumar</strong>
+      </span>
     </div>
   </div>
 
@@ -150,6 +169,10 @@
           Login Portal
         </button>
       </form>
+
+      <div class="text-center mt-6 pt-3 border-t border-white/5">
+        <p class="text-[10px] text-slate-500 font-mono font-medium">Engineered by Puneet Kumar</p>
+      </div>
     </div>
   </div>
 
@@ -173,14 +196,41 @@
       </button>
     </header>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-8 pt-3">
-      <div class="py-2 px-3.5 rounded-xl glass-box border-amber-500/20 text-xs flex items-center gap-2">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
-        <span id="motivation-text-display" class="italic text-slate-300 truncate"></span>
+    <!-- BADA & BOLD MOTIVATION BANNER -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 pt-4">
+      <div class="glass-box p-4 sm:p-5 rounded-2xl border-2 border-amber-500/30 banner-glow bg-gradient-to-r from-amber-500/10 via-slate-900/40 to-blue-500/10 flex items-start sm:items-center gap-3.5">
+        <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 shrink-0">
+          <i data-lucide="flame" class="w-6 h-6"></i>
+        </div>
+        <div class="flex-1">
+          <div class="text-[10px] font-black uppercase tracking-widest text-amber-400 mb-0.5">Today's Commander Directive:</div>
+          <h2 id="motivation-text-display" class="text-sm sm:text-base font-black text-white tracking-wide leading-snug"></h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE BROADCAST TARGET GOLDEN CARD (MEMBER VIEW) -->
+    <div id="member-broadcast-target-card" class="hidden max-w-6xl mx-auto px-4 sm:px-8 pt-3">
+      <div class="glass-box p-3.5 rounded-xl border border-emerald-500/40 bg-gradient-to-r from-emerald-500/15 to-transparent flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></div>
+          <div>
+            <span class="text-[10px] font-bold uppercase text-emerald-400 block tracking-wider">Live Broadcast Team Target:</span>
+            <p id="member-broadcast-target-text" class="text-xs font-black text-white"></p>
+          </div>
+        </div>
+        <div class="text-right font-mono text-xs font-black text-emerald-300 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+          ACTIVE DIRECTIVE
+        </div>
       </div>
     </div>
 
     <main id="dynamic-role-container" class="pt-4"></main>
+
+    <!-- Footer Attribution -->
+    <footer class="mt-8 pb-4 text-center">
+      <p class="text-[11px] text-slate-500 font-mono">Designed by <span class="text-slate-300 font-bold">Puneet Kumar</span> • Vanguard One</p>
+    </footer>
   </div>
 
   <!-- ================= MODAL: MASTER DEVICE REGISTRATION ================= -->
@@ -276,7 +326,8 @@
     let users = JSON.parse(localStorage.getItem("hmt_users")) || [];
     let pendingBV = JSON.parse(localStorage.getItem("hmt_pending_bv")) || [];
     let systemConfig = JSON.parse(localStorage.getItem("hmt_config")) || {
-      motivation: "Mehnat itni khamoshi se karo ki kamiyabi shor macha de!",
+      motivation: "Aaj jo mehnat se nahi darega, wahi kal team ka sabse bada leader banega!",
+      broadcastTarget: "Har active associate aaj minimum 3 Plans complete kare!",
       maxAdminDevices: 2,
       gpsEnabled: true,
       bvEnabled: true,
@@ -446,6 +497,15 @@
       document.getElementById("header-user-name").textContent = user.name;
       document.getElementById("header-user-role").textContent = user.role;
 
+      // Broadcast target banner visibility for members
+      const memberTargetCard = document.getElementById("member-broadcast-target-card");
+      if (user.role === "member" && systemConfig.broadcastTarget) {
+        memberTargetCard.classList.remove("hidden");
+        document.getElementById("member-broadcast-target-text").textContent = systemConfig.broadcastTarget;
+      } else {
+        memberTargetCard.classList.add("hidden");
+      }
+
       const container = document.getElementById("dynamic-role-container");
       container.innerHTML = "";
 
@@ -518,11 +578,19 @@
             </div>
           </div>
 
-          <div class="glass-box p-4 rounded-xl space-y-2">
-            <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-purple-400"></i> Field GPS Activity Feed
-            </h3>
-            <div id="admin-gps-feed" class="space-y-1.5 text-xs max-h-48 overflow-y-auto"></div>
+          <!-- INTERACTIVE FIELD GPS LIVE RADAR -->
+          <div class="glass-box p-4 rounded-xl space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-black text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-500"></span>
+                </span>
+                Interactive Field GPS Live Radar
+              </h3>
+              <span class="text-[10px] font-mono text-slate-400">Real-time Location Stream</span>
+            </div>
+            <div id="admin-gps-feed" class="space-y-2 text-xs max-h-64 overflow-y-auto"></div>
           </div>
         </div>
 
@@ -583,6 +651,18 @@
 
         <!-- SETTINGS TAB -->
         <div id="admin-content-settings" class="hidden space-y-4 text-xs">
+          <!-- TARGET BROADCAST CONTROL (NEW) -->
+          <div class="glass-box p-4 rounded-xl space-y-2 border border-emerald-500/30">
+            <h3 class="font-bold text-emerald-400 uppercase flex items-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i> Team Target Broadcast Directive
+            </h3>
+            <p class="text-[11px] text-slate-400">Poori team ke dashboard par ek sath golden active target notice send karein:</p>
+            <div class="flex gap-2">
+              <input type="text" id="target-broadcast-input" placeholder="e.g. Aaj har associate ko 3 plan complete karne hain!" class="glass-input flex-1 px-3 py-2 rounded-xl" />
+              <button onclick="updateTargetBroadcast()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition">Broadcast Target</button>
+            </div>
+          </div>
+
           <!-- Feature Switches -->
           <div class="glass-box p-4 rounded-xl space-y-3">
             <h3 class="font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
@@ -633,7 +713,7 @@
 
           <!-- Motivation Broadcast -->
           <div class="glass-box p-4 rounded-xl space-y-2">
-            <h3 class="font-bold text-amber-400 uppercase">Motivation Broadcast</h3>
+            <h3 class="font-bold text-amber-400 uppercase">Motivation Line Broadcast</h3>
             <div class="flex gap-2">
               <input type="text" id="motivation-input" placeholder="Naya sandesh likhein..." class="glass-input flex-1 px-3 py-2 rounded-xl" />
               <button onclick="updateMotivationQuote()" class="px-4 py-2 bg-amber-600 text-white font-bold rounded-xl">Broadcast</button>
@@ -852,20 +932,39 @@
         alertContainer.appendChild(div);
       });
 
-      // GPS Feed
+      // INTERACTIVE GPS RADAR FEED WITH MAP CARDS
       const gpsFeed = document.getElementById("admin-gps-feed");
       gpsFeed.innerHTML = "";
       let hasFeed = false;
       members.forEach(m => {
         (m.gpsLogs || []).forEach(log => {
           hasFeed = true;
-          const p = document.createElement("div");
-          p.className = "p-2 rounded-lg glass-input flex justify-between items-center text-[11px]";
-          p.innerHTML = `<span><strong>${m.name}</strong>: ${log.text}</span> <a href="${log.link}" target="_blank" class="text-blue-400 underline font-bold">GPS Pin</a>`;
-          gpsFeed.prepend(p);
+          const card = document.createElement("div");
+          card.className = "p-3 rounded-xl glass-input border border-purple-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 hover:border-purple-500/50 transition";
+          card.innerHTML = `
+            <div class="flex items-start gap-2.5">
+              <div class="p-2 rounded-lg bg-purple-500/20 text-purple-300 shrink-0 mt-0.5">
+                <i data-lucide="navigation" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <strong class="text-white text-xs">${m.name}</strong>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold">${m.city}</span>
+                </div>
+                <p class="text-[11px] text-slate-300 mt-0.5 font-medium">${log.text}</p>
+                <p class="text-[10px] text-slate-500 font-mono">Coordinates: ${log.lat || 'Verified GPS Pin'}, ${log.lon || 'Agra Area'}</p>
+              </div>
+            </div>
+            <a href="${log.link}" target="_blank" class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg font-bold text-[11px] flex items-center justify-center gap-1.5 shrink-0 shadow-md shadow-purple-600/25">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open in Google Maps
+            </a>
+          `;
+          gpsFeed.prepend(card);
         });
       });
-      if (!hasFeed) gpsFeed.innerHTML = "<p class='text-slate-500 py-1 text-center'>Koi GPS punch nahi hua.</p>";
+      if (!hasFeed) {
+        gpsFeed.innerHTML = "<p class='text-slate-500 py-3 text-center text-xs'>Koi GPS punch record nahi hua hai abhi tak.</p>";
+      }
 
       renderAdminRoster();
       renderAdminApprovals();
@@ -880,6 +979,15 @@
       if (feat === 'otp') systemConfig.otpEnabled = val;
       if (feat === 'noprogress') systemConfig.noProgressEnabled = val;
       saveDB();
+    }
+
+    function updateTargetBroadcast() {
+      const tgt = document.getElementById("target-broadcast-input").value.trim();
+      if (!tgt) return;
+      systemConfig.broadcastTarget = tgt;
+      saveDB();
+      document.getElementById("target-broadcast-input").value = "";
+      alert("Target Directive sabhi members ko broadcast ho gaya!");
     }
 
     function adjustAdminDeviceLimit(delta) {
@@ -1010,7 +1118,7 @@
       saveDB();
       document.getElementById("motivation-text-display").textContent = `"${q}"`;
       document.getElementById("motivation-input").value = "";
-      alert("Motivation broadcasted!");
+      alert("Motivation Directive broadcasted!");
     }
 
     document.getElementById("add-member-form").addEventListener("submit", (e) => {
@@ -1199,9 +1307,11 @@
         return;
       }
       navigator.geolocation.getCurrentPosition(pos => {
-        const link = `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
-        const time = new Date().toLocaleTimeString();
-        const entry = { text: `Plan #${(currentSession.todayPlans || 0) + 1} at ${time}`, link };
+        const lat = pos.coords.latitude.toFixed(5);
+        const lon = pos.coords.longitude.toFixed(5);
+        const link = `https://maps.google.com/?q=${lat},${lon}`;
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const entry = { text: `Plan #${(currentSession.todayPlans || 0) + 1} punched at ${time}`, link, lat, lon };
 
         users = users.map(u => u.id === currentSession.id ? {
           ...u,
