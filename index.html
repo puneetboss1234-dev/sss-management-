@@ -4,88 +4,67 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hemant Team Management - Master Portal</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Modern Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- html2canvas for JPG Card / Leaderboard Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
-    /* Ultra-Premium Space & Glassmorphism Theme */
     body {
       background-color: #030712;
       background-image: 
-        radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.35) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(88, 28, 135, 0.35) 0px, transparent 50%),
-        radial-gradient(at 50% 100%, rgba(15, 23, 42, 0.8) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.4) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(88, 28, 135, 0.4) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(15, 23, 42, 0.85) 0px, transparent 50%);
       background-attachment: fixed;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #f8fafc;
       min-height: 100vh;
     }
-
     .glass-panel {
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
-
     .glass-card {
       background: rgba(30, 41, 59, 0.45);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.06);
     }
-
-    .glass-card:hover {
-      border-color: rgba(96, 165, 250, 0.3);
-      box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.25);
-    }
-
     .glass-input {
-      background: rgba(2, 6, 23, 0.6);
+      background: rgba(2, 6, 23, 0.65);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #ffffff;
     }
-
     .glass-input:focus {
       border-color: #3b82f6;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
       outline: none;
     }
-
     .glass-tab-active {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(99, 102, 241, 0.35));
-      border: 1px solid rgba(96, 165, 250, 0.4);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(99, 102, 241, 0.4));
+      border: 1px solid rgba(96, 165, 250, 0.5);
       color: #ffffff;
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
     }
-
-    /* Custom Scrollbar for Sleek Look */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
     ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.5); }
   </style>
 </head>
 <body class="selection:bg-blue-600 selection:text-white pb-24 sm:pb-12">
 
-  <!-- ======================================================== -->
-  <!-- SCREEN 1: FIRST-TIME ADMIN MASTER SETUP                  -->
-  <!-- ======================================================== -->
+  <!-- SCREEN 1: FIRST-TIME ADMIN SETUP -->
   <div id="setup-section" class="hidden min-h-screen flex items-center justify-center p-4">
     <div class="glass-panel w-full max-w-lg rounded-3xl p-8 sm:p-10 relative overflow-hidden">
-      <div class="absolute -top-12 -right-12 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
       <div class="text-center mb-6">
         <div class="h-16 w-16 bg-blue-600/20 border border-blue-400/30 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-500/30">
           <i data-lucide="shield-check" class="w-8 h-8 text-blue-400"></i>
         </div>
         <h1 class="text-2xl font-black text-white tracking-wider uppercase">Hemant Team Management</h1>
         <p class="text-xs text-blue-400 font-semibold tracking-wide mt-1">Super Admin Account Setup</p>
-        <p class="text-xs text-slate-400 mt-0.5">Shuruat karne ke liye apna master password aur ID banayein</p>
       </div>
 
       <form id="setup-form" class="space-y-4">
@@ -94,7 +73,7 @@
           <input type="text" id="setup-name" required placeholder="e.g. Hemant Kumar" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm" />
         </div>
         <div>
-          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Admin WhatsApp No. (For Reports & OTP)</label>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">WhatsApp No. (For Reports & OTP)</label>
           <input type="tel" id="setup-phone" required placeholder="10 Digit Phone Number" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm" />
         </div>
         <div>
@@ -111,19 +90,21 @@
             <input type="password" id="setup-password" required placeholder="••••••••" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm" />
           </div>
         </div>
-        <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition duration-200 mt-2 text-sm">
+        <div>
+          <label class="block text-[11px] font-bold text-amber-400 uppercase mb-1">Master Security Recovery PIN (4 Digits)</label>
+          <input type="text" id="setup-pin" required maxlength="4" placeholder="4 Digits (Naya device jodne ke liye)" class="glass-input w-full px-4 py-2.5 rounded-xl text-sm font-mono tracking-widest text-amber-300" />
+          <p class="text-[10px] text-slate-400 mt-1">Jab aap 2 se zyada ya nayi device me portal kholenge, tab yeh PIN mangega.</p>
+        </div>
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition text-sm">
           System Activate Karein
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- SCREEN 2: LOGIN PORTAL (ADMIN & MEMBER)                  -->
-  <!-- ======================================================== -->
+  <!-- SCREEN 2: LOGIN PORTAL -->
   <div id="login-section" class="hidden min-h-screen flex items-center justify-center p-4">
     <div class="glass-panel w-full max-w-md rounded-3xl p-8 sm:p-10 relative overflow-hidden">
-      <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
       <div class="text-center mb-8">
         <div class="h-16 w-16 bg-blue-600/20 border border-blue-400/30 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-500/25">
           <i data-lucide="shield" class="w-8 h-8 text-blue-400"></i>
@@ -132,13 +113,11 @@
         <p class="text-xs text-slate-400 mt-1">Apne ID & Password ke sath login karein</p>
       </div>
 
-      <div id="login-error" class="hidden mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/25 text-red-400 text-xs text-center font-medium">
-        Galat User ID ya Password! Kripya check karein.
-      </div>
+      <div id="login-error" class="hidden mb-4 p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs text-center font-medium"></div>
 
       <form id="login-form" class="space-y-4">
         <div>
-          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">User ID / Username</label>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">User ID</label>
           <input type="text" id="login-username" required placeholder="Aapka ID" class="glass-input w-full px-4 py-3 rounded-xl text-sm" />
         </div>
         <div>
@@ -152,14 +131,11 @@
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- SCREEN 3: MAIN SYSTEM INTERFACE                          -->
-  <!-- ======================================================== -->
+  <!-- SCREEN 3: DYNAMIC APPLICATION PORTAL -->
   <div id="dashboard-section" class="hidden">
-    <!-- Navbar Header -->
     <header class="sticky top-0 z-40 glass-panel border-b border-white/10 px-4 sm:px-8 py-3.5 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="h-10 w-10 bg-blue-600/30 border border-blue-400/40 rounded-xl flex items-center justify-center shadow-md shadow-blue-500/20">
+        <div class="h-10 w-10 bg-blue-600/30 border border-blue-400/40 rounded-xl flex items-center justify-center">
           <i data-lucide="shield" class="w-5 h-5 text-blue-400"></i>
         </div>
         <div>
@@ -175,506 +151,39 @@
       </button>
     </header>
 
-    <!-- Motivation Banner (Live Broadcast) -->
     <div id="motivation-banner-container" class="max-w-7xl mx-auto px-4 sm:px-8 pt-4">
-      <div class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-blue-500/15 to-purple-500/15 border border-amber-500/30 flex items-center gap-3 shadow-lg shadow-amber-500/5">
+      <div class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-blue-500/15 to-purple-500/15 border border-amber-500/30 flex items-center gap-3">
         <div class="h-8 w-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
           <i data-lucide="sparkles" class="w-4 h-4"></i>
         </div>
         <div class="text-xs text-slate-200">
-          <span class="font-bold text-amber-400 uppercase text-[10px] tracking-wider block">Daily Team Motivation:</span>
-          <span id="motivation-text-display" class="italic font-medium">"Mehnat itni khamoshi se karo ki kamiyabi shor macha de!"</span>
+          <span class="font-bold text-amber-400 uppercase text-[10px] tracking-wider block">Daily Motivation:</span>
+          <span id="motivation-text-display" class="italic font-medium"></span>
         </div>
       </div>
     </div>
 
-    <!-- ======================================================== -->
-    <!-- ADMIN PANEL: 5 DEDICATED TABS                            -->
-    <!-- ======================================================== -->
-    <div id="admin-view" class="hidden max-w-7xl mx-auto px-4 sm:px-8 pt-6 space-y-6">
-      
-      <!-- Admin Top Navigation Bar -->
-      <div class="glass-panel p-1.5 rounded-2xl flex flex-wrap gap-1 border border-white/10">
-        <button onclick="switchAdminTab('radar')" id="atab-radar" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 glass-tab-active">
-          <i data-lucide="radar" class="w-4 h-4"></i> 1. Live Radar
-        </button>
-        <button onclick="switchAdminTab('roster')" id="atab-roster" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 text-slate-400 hover:text-white">
-          <i data-lucide="users" class="w-4 h-4"></i> 2. Team Roster
-        </button>
-        <button onclick="switchAdminTab('approvals')" id="atab-approvals" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 text-slate-400 hover:text-white relative">
-          <i data-lucide="clock" class="w-4 h-4"></i> 3. Approvals
-          <span id="admin-pending-badge" class="hidden px-1.5 py-0.5 bg-amber-500 text-black font-extrabold rounded-full text-[10px]">0</span>
-        </button>
-        <button onclick="switchAdminTab('leaderboard')" id="atab-leaderboard" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 text-slate-400 hover:text-white">
-          <i data-lucide="trophy" class="w-4 h-4"></i> 4. Leaderboard
-        </button>
-        <button onclick="switchAdminTab('settings')" id="atab-settings" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 text-slate-400 hover:text-white">
-          <i data-lucide="sliders" class="w-4 h-4"></i> 5. Settings
-        </button>
-      </div>
-
-      <!-- ADMIN TAB 1: LIVE RADAR -->
-      <div id="admin-content-radar" class="space-y-6">
-        <!-- Red Alert Container for No Progress -->
-        <div id="admin-no-progress-alerts" class="space-y-2"></div>
-
-        <!-- 4 Core Scorecards -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="text-[10px] uppercase font-bold text-slate-400">Total Team Size</div>
-            <div id="kpi-team-count" class="text-2xl font-black text-white mt-1">0</div>
-          </div>
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="text-[10px] uppercase font-bold text-purple-400">Today Plans Shown</div>
-            <div id="kpi-today-plans" class="text-2xl font-black text-purple-400 mt-1">0</div>
-          </div>
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="text-[10px] uppercase font-bold text-amber-400">Today DD Collected</div>
-            <div id="kpi-today-dd" class="text-2xl font-black text-amber-400 mt-1">₹0</div>
-          </div>
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="text-[10px] uppercase font-bold text-emerald-400">Approved Team BV</div>
-            <div id="kpi-total-bv" class="text-2xl font-black text-emerald-400 mt-1">0 BV</div>
-          </div>
-        </div>
-
-        <!-- Real-time GPS Plan Punch Stream -->
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
-          <h3 class="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="navigation-2" class="w-4 h-4"></i> Live Field GPS Activity Feed
-          </h3>
-          <div id="admin-gps-feed" class="space-y-2 text-xs max-h-56 overflow-y-auto">
-            <p class="text-slate-500 text-xs py-4 text-center">Abhi tak koi GPS plan punch nahi hua hai.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ADMIN TAB 2: TEAM ROSTER -->
-      <div id="admin-content-roster" class="hidden space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div class="relative flex-1 min-w-[240px]">
-            <input type="text" id="roster-search" oninput="renderAdminRoster()" placeholder="Member naam ya city search karein..." class="glass-input w-full px-4 py-2.5 rounded-xl text-xs" />
-          </div>
-          <div class="flex gap-2">
-            <button onclick="openModal('bulk-target-modal')" class="px-3.5 py-2 glass-card hover:bg-white/10 text-xs font-semibold rounded-xl border border-white/10 flex items-center gap-1.5">
-              <i data-lucide="target" class="w-3.5 h-3.5 text-blue-400"></i> Set All Target
-            </button>
-            <button onclick="openModal('add-member-modal')" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-blue-600/30 flex items-center gap-1.5">
-              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> + Naya Member
-            </button>
-          </div>
-        </div>
-
-        <!-- Team Table -->
-        <div class="glass-panel rounded-2xl overflow-hidden border border-white/10">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-300">
-              <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold border-b border-white/5">
-                <tr>
-                  <th class="px-4 py-3.5">Member</th>
-                  <th class="px-4 py-3.5">User ID / Phone</th>
-                  <th class="px-4 py-3.5">Target</th>
-                  <th class="px-4 py-3.5">Today Plans</th>
-                  <th class="px-4 py-3.5">DD (₹)</th>
-                  <th class="px-4 py-3.5">Approved BV</th>
-                  <th class="px-4 py-3.5">Status</th>
-                  <th class="px-4 py-3.5 text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody id="admin-roster-body" class="divide-y divide-white/5"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ADMIN TAB 3: APPROVALS & REQUESTS -->
-      <div id="admin-content-approvals" class="hidden space-y-6">
-        <!-- BV Queue -->
-        <div class="glass-panel p-6 rounded-3xl border border-amber-500/20 space-y-4">
-          <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="clock" class="w-4 h-4"></i> Pending Product Sales & BV Queue
-          </h3>
-          <div id="admin-pending-bv-list" class="space-y-3">
-            <p class="text-slate-500 text-xs py-4 text-center">Koi pending BV approval nahi hai.</p>
-          </div>
-        </div>
-
-        <!-- Active OTP Monitor -->
-        <div class="glass-panel p-6 rounded-3xl border border-indigo-500/20 space-y-3">
-          <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="key" class="w-4 h-4"></i> Active Master Report Unlock OTP
-          </h3>
-          <div class="p-4 rounded-xl glass-input flex items-center justify-between">
-            <div class="text-xs text-slate-300">
-              Agar kisi member ne Reports Tab kholne ke liye OTP maanga ho, toh yahan active code dikhega:
-            </div>
-            <div id="admin-active-otp-box" class="text-xl font-black font-mono text-emerald-400 px-4 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-              ------
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ADMIN TAB 4: LEADERBOARD & POSTER -->
-      <div id="admin-content-leaderboard" class="hidden space-y-6">
-        <!-- Poster Generation Canvas Target -->
-        <div id="leaderboard-poster" class="glass-panel p-6 sm:p-8 rounded-3xl border border-amber-500/30 space-y-6 relative overflow-hidden">
-          <div class="text-center space-y-1">
-            <span class="px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-[10px] font-extrabold uppercase tracking-widest border border-amber-500/30">
-              Official Team Performance
-            </span>
-            <h2 class="text-2xl font-black text-white tracking-wide">HEMANT TEAM MANAGEMENT CHAMPIONS</h2>
-            <p class="text-xs text-slate-400" id="leaderboard-date"></p>
-          </div>
-
-          <!-- 3 Podiums -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-            <div class="glass-card p-5 rounded-2xl text-center border-amber-500/30">
-              <div class="text-2xl">🥇</div>
-              <div class="text-xs uppercase font-bold text-amber-400 mt-1">Top Closer (DD King)</div>
-              <div id="podium-closer" class="text-sm font-extrabold text-white mt-1">-</div>
-              <div id="podium-closer-val" class="text-xs text-amber-300 font-mono mt-0.5">₹0</div>
-            </div>
-            <div class="glass-card p-5 rounded-2xl text-center border-purple-500/30">
-              <div class="text-2xl">🥈</div>
-              <div class="text-xs uppercase font-bold text-purple-400 mt-1">Plan Machine</div>
-              <div id="podium-plans" class="text-sm font-extrabold text-white mt-1">-</div>
-              <div id="podium-plans-val" class="text-xs text-purple-300 font-mono mt-0.5">0 Plans</div>
-            </div>
-            <div class="glass-card p-5 rounded-2xl text-center border-emerald-500/30">
-              <div class="text-2xl">🥉</div>
-              <div class="text-xs uppercase font-bold text-emerald-400 mt-1">BV Leader</div>
-              <div id="podium-bv" class="text-sm font-extrabold text-white mt-1">-</div>
-              <div id="podium-bv-val" class="text-xs text-emerald-300 font-mono mt-0.5">0 BV</div>
-            </div>
-          </div>
-        </div>
-
-        <button onclick="exportLeaderboardJPG()" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold rounded-xl text-xs shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2">
-          <i data-lucide="image" class="w-4 h-4"></i> Download JPG Poster for WhatsApp Group
-        </button>
-      </div>
-
-      <!-- ADMIN TAB 5: MASTER SETTINGS -->
-      <div id="admin-content-settings" class="hidden space-y-6">
-        <!-- Motivation Quote Broadcaster -->
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
-          <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="megaphone" class="w-4 h-4"></i> Broadcast Daily Motivation Line
-          </h3>
-          <div class="flex gap-2">
-            <input type="text" id="motivation-input" placeholder="Naya sandesh ya quote yahan likhein..." class="glass-input flex-1 px-4 py-2.5 rounded-xl text-xs" />
-            <button onclick="updateMotivationQuote()" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs transition">
-              Broadcast
-            </button>
-          </div>
-        </div>
-
-        <!-- Master On/Off Toggles -->
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
-          <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="toggle-left" class="w-4 h-4"></i> Master System Feature Controls
-          </h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <label class="flex items-center justify-between p-3.5 glass-card rounded-xl cursor-pointer">
-              <span>GPS Show Plan Feature</span>
-              <input type="checkbox" id="toggle-gps" checked onchange="toggleSystemFeature('gps', this.checked)" class="w-4 h-4 accent-blue-600" />
-            </label>
-            <label class="flex items-center justify-between p-3.5 glass-card rounded-xl cursor-pointer">
-              <span>Member BV Sale Submission</span>
-              <input type="checkbox" id="toggle-bv" checked onchange="toggleSystemFeature('bv', this.checked)" class="w-4 h-4 accent-blue-600" />
-            </label>
-            <label class="flex items-center justify-between p-3.5 glass-card rounded-xl cursor-pointer">
-              <span>OTP Protected Reports Tab</span>
-              <input type="checkbox" id="toggle-otp" checked onchange="toggleSystemFeature('otp', this.checked)" class="w-4 h-4 accent-blue-600" />
-            </label>
-            <label class="flex items-center justify-between p-3.5 glass-card rounded-xl cursor-pointer">
-              <span>No-Progress Reason Reporting</span>
-              <input type="checkbox" id="toggle-noprogress" checked onchange="toggleSystemFeature('noprogress', this.checked)" class="w-4 h-4 accent-blue-600" />
-            </label>
-          </div>
-        </div>
-
-        <!-- Data Backups & CSV -->
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
-          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="database" class="w-4 h-4"></i> Full Database Backup & Excel
-          </h3>
-          <div class="flex flex-wrap gap-2 pt-2">
-            <button onclick="exportToCSV()" class="px-4 py-2.5 glass-card hover:bg-white/10 text-xs font-bold rounded-xl border border-white/10 flex items-center gap-1.5">
-              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-400"></i> Download Excel (.CSV)
-            </button>
-            <button onclick="downloadJSONBackup()" class="px-4 py-2.5 glass-card hover:bg-white/10 text-xs font-bold rounded-xl border border-white/10 flex items-center gap-1.5">
-              <i data-lucide="download" class="w-4 h-4 text-blue-400"></i> Download Data Backup (.JSON)
-            </button>
-            <label class="px-4 py-2.5 glass-card hover:bg-white/10 text-xs font-bold rounded-xl border border-white/10 flex items-center gap-1.5 cursor-pointer">
-              <i data-lucide="upload" class="w-4 h-4 text-amber-400"></i> Restore Backup File
-              <input type="file" accept=".json" onchange="restoreJSONBackup(event)" class="hidden" />
-            </label>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ======================================================== -->
-    <!-- MEMBER PANEL: 5 BOTTOM TABS                              -->
-    <!-- ======================================================== -->
-    <div id="member-view" class="hidden max-w-3xl mx-auto px-4 pt-6 space-y-6">
-
-      <!-- MEMBER TAB 1: WORKSPACE -->
-      <div id="member-content-workspace" class="space-y-6">
-        <!-- Member Profile Header -->
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <img id="member-disp-photo" src="https://via.placeholder.com/80" class="w-14 h-14 rounded-2xl object-cover border border-white/20 shadow-md" />
-            <div>
-              <h2 id="member-disp-name" class="text-lg font-black text-white"></h2>
-              <p class="text-[11px] text-slate-400">City: <span id="member-disp-city"></span> | ID: <span id="member-disp-user" class="text-blue-400 font-mono font-bold"></span></p>
-            </div>
-          </div>
-          <div class="text-right">
-            <span class="text-[10px] uppercase font-bold text-slate-400 block">Total BV</span>
-            <span id="member-disp-bv" class="text-lg font-black text-emerald-400 font-mono">0 BV</span>
-          </div>
-        </div>
-
-        <!-- GPS Show Plan Action Button -->
-        <div id="member-gps-box" class="p-5 rounded-3xl bg-gradient-to-r from-purple-900/40 via-blue-900/40 to-slate-900/40 border border-purple-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
-              <i data-lucide="navigation" class="w-4 h-4 text-purple-400"></i> Show Plan Location Punch
-            </h3>
-            <p class="text-xs text-slate-300 mt-0.5">Prospect ke paas pahunch kar punch karein (Live GPS verified)</p>
-          </div>
-          <button onclick="memberPunchShowPlan()" class="w-full sm:w-auto px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl text-xs shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2">
-            <i data-lucide="map-pin" class="w-4 h-4"></i> Show Plan Punch Karein
-          </button>
-        </div>
-
-        <!-- Daily Action Checklist & Scorecard -->
-        <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card p-4 rounded-2xl text-center">
-            <span class="text-[10px] uppercase font-bold text-slate-400">Today Target</span>
-            <div id="member-disp-target" class="text-xl font-black text-white mt-1">0</div>
-          </div>
-          <div class="glass-card p-4 rounded-2xl text-center">
-            <span class="text-[10px] uppercase font-bold text-purple-400">Plans Done</span>
-            <div id="member-disp-plans" class="text-xl font-black text-purple-400 mt-1">0</div>
-          </div>
-          <div class="glass-card p-4 rounded-2xl text-center">
-            <span class="text-[10px] uppercase font-bold text-amber-400">DD Received</span>
-            <div id="member-disp-dd" class="text-xl font-black text-amber-400 mt-1">₹0</div>
-          </div>
-        </div>
-
-        <!-- Daily Reporting Form -->
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
-          <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="clipboard-pen" class="w-4 h-4"></i> Follow-up & Payment Report
-          </h3>
-          <form id="member-daily-form" class="space-y-3">
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="text-[10px] uppercase font-bold text-slate-400">Follow-ups Kiye</label>
-                <input type="number" id="mem-input-followups" required min="0" placeholder="0" class="glass-input w-full p-2.5 rounded-xl text-xs mt-1" />
-              </div>
-              <div>
-                <label class="text-[10px] uppercase font-bold text-slate-400">DD / Cash Amount (₹)</label>
-                <input type="number" id="mem-input-dd" required min="0" placeholder="₹0" class="glass-input w-full p-2.5 rounded-xl text-xs mt-1" />
-              </div>
-            </div>
-            <textarea id="mem-input-notes" rows="2" placeholder="Din bhar ke meeting notes ya summary..." class="glass-input w-full p-2.5 rounded-xl text-xs"></textarea>
-            <div class="flex gap-2">
-              <button type="submit" class="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs transition">
-                Report Save Karein
-              </button>
-              <button type="button" onclick="memberShareReportWhatsApp()" class="px-4 py-3 bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-bold flex items-center gap-1.5">
-                <i data-lucide="share-2" class="w-4 h-4"></i> WhatsApp
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Tomorrow's Planner -->
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
-          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="calendar" class="w-4 h-4 text-blue-400"></i> Next-Day Planner (Kal Ki Taiyari)
-          </h3>
-          <div class="grid grid-cols-3 gap-2">
-            <input type="text" id="planner-client" placeholder="Pehle kisse milna hai?" class="col-span-2 glass-input p-2.5 rounded-xl text-xs" />
-            <input type="number" id="planner-target" placeholder="Kitne Plans?" class="glass-input p-2.5 rounded-xl text-xs" />
-          </div>
-          <button onclick="saveNextDayPlan()" class="px-4 py-2 bg-white/10 hover:bg-white/15 text-white font-bold rounded-xl text-xs transition">
-            Plan Save Karein
-          </button>
-        </div>
-
-        <!-- No Progress Form -->
-        <div id="member-noprogress-box" class="glass-panel p-6 rounded-3xl border border-red-500/20 space-y-3">
-          <h3 class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="alert-triangle" class="w-4 h-4"></i> Aaj Kaam Nahi Hua? Reason Batayein
-          </h3>
-          <form id="member-noprogress-form" class="space-y-3">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <select id="np-reason" class="glass-input p-2.5 rounded-xl text-xs">
-                <option value="Health Issue / Beemar">Health Issue / Beemar</option>
-                <option value="Market / Area Band">Market / Area Band</option>
-                <option value="Customer Ne Cancel Kiya">Customer Ne Cancel Kiya</option>
-                <option value="Family Emergency">Family Emergency</option>
-                <option value="Other Issue">Other Issue</option>
-              </select>
-              <input type="text" id="np-detail" required placeholder="Detail wajeh likhein..." class="glass-input p-2.5 rounded-xl text-xs" />
-            </div>
-            <button type="submit" class="px-4 py-2 bg-red-600/20 text-red-300 border border-red-500/30 rounded-xl text-xs font-bold">
-              Reason Admin Ko Bhejein
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <!-- MEMBER TAB 2: PROSPECT DIARY & PIPELINE -->
-      <div id="member-content-diary" class="hidden space-y-6">
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
-          <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="book-open" class="w-4 h-4"></i> Pocket Prospect Diary (Nayi Lead Add Karein)
-          </h3>
-          <form id="add-prospect-form" class="space-y-3">
-            <div class="grid grid-cols-2 gap-2">
-              <input type="text" id="lead-name" required placeholder="Prospect Ka Naam" class="glass-input p-2.5 rounded-xl text-xs" />
-              <input type="tel" id="lead-phone" required placeholder="Mobile Number" class="glass-input p-2.5 rounded-xl text-xs" />
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <input type="text" id="lead-city" placeholder="Area / City" class="glass-input p-2.5 rounded-xl text-xs" />
-              <select id="lead-status" class="glass-input p-2.5 rounded-xl text-xs">
-                <option value="Plan Dikhana Hai">Plan Dikhana Hai</option>
-                <option value="Plan Dikha Diya">Plan Dikha Diya</option>
-                <option value="Follow-up Baaki">Follow-up Baaki</option>
-                <option value="Ready To Join">Ready To Join</option>
-              </select>
-            </div>
-            <button type="submit" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs">
-              + Diary Me Add Karein
-            </button>
-          </form>
-        </div>
-
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
-          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Aapki Leads List</h3>
-          <div id="member-prospects-list" class="space-y-2 text-xs"></div>
-        </div>
-      </div>
-
-      <!-- MEMBER TAB 3: SALES & BV -->
-      <div id="member-content-sales" class="hidden space-y-6">
-        <div id="member-bv-entry-box" class="glass-panel p-6 rounded-3xl border border-emerald-500/20 space-y-4">
-          <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="shopping-bag" class="w-4 h-4"></i> Product Sale & BV Entry
-          </h3>
-          <p class="text-xs text-slate-400">Sale daalte hi Admin ke pass approval queue me chali jayegi:</p>
-          <form id="member-sale-form" class="space-y-3">
-            <input type="text" id="sale-product" required placeholder="Product Ka Naam" class="glass-input w-full p-2.5 rounded-xl text-xs" />
-            <div class="grid grid-cols-2 gap-2">
-              <input type="number" id="sale-qty" required min="1" placeholder="Quantity" class="glass-input w-full p-2.5 rounded-xl text-xs" />
-              <input type="number" id="sale-bv" required min="1" placeholder="Total BV" class="glass-input w-full p-2.5 rounded-xl text-emerald-400 font-bold text-xs" />
-            </div>
-            <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs">
-              BV Approval Ke Liye Submit Karein
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <!-- MEMBER TAB 4: TOOLKIT & VISITING CARD -->
-      <div id="member-content-toolkit" class="hidden space-y-6">
-        <!-- Digital Visiting Card Canvas -->
-        <div id="visiting-card-canvas" class="glass-panel p-6 rounded-3xl border border-blue-500/30 space-y-4 text-center relative overflow-hidden">
-          <div class="flex flex-col items-center space-y-2">
-            <img id="vc-photo" src="https://via.placeholder.com/80" class="w-20 h-20 rounded-3xl object-cover border-2 border-blue-400 shadow-xl" />
-            <h4 id="vc-name" class="text-lg font-black text-white"></h4>
-            <span class="px-3 py-0.5 bg-blue-600/30 text-blue-300 text-[10px] font-bold rounded-full border border-blue-400/30">
-              Hemant Team Management - Certified Associate
-            </span>
-          </div>
-          <div class="grid grid-cols-2 gap-2 text-left pt-2 text-xs border-t border-white/10">
-            <div><span class="text-slate-400 text-[10px] block">Mobile:</span> <span id="vc-phone" class="font-mono text-white"></span></div>
-            <div><span class="text-slate-400 text-[10px] block">Location:</span> <span id="vc-city" class="text-white"></span></div>
-          </div>
-        </div>
-
-        <button onclick="exportVisitingCardJPG()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2">
-          <i data-lucide="image" class="w-4 h-4"></i> Download Visiting Card JPG
-        </button>
-
-        <!-- Objection Handling Cheatsheet -->
-        <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
-          <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Field Objection Handling Cheatsheet</h3>
-          <details class="glass-card p-3 rounded-xl text-xs">
-            <summary class="font-bold text-white cursor-pointer">"Mere paas paise nahi hain"</summary>
-            <p class="text-slate-300 mt-2">Bolna hai: "Sir isi wajah se toh hume yeh kaam samajhna hai taaki agle 6 mahine baad aapko paise ki problem na rahe."</p>
-          </details>
-          <details class="glass-card p-3 rounded-xl text-xs">
-            <summary class="font-bold text-white cursor-pointer">"Mere paas bilkul time nahi hai"</summary>
-            <p class="text-slate-300 mt-2">Bolna hai: "Sir rozana sirf 1 ghanta nikal kar part-time shuru kiya ja sakta hai."</p>
-          </details>
-        </div>
-      </div>
-
-      <!-- MEMBER TAB 5: REPORTS (ADMIN OTP LOCKED) -->
-      <div id="member-content-reports" class="hidden space-y-6">
-        <div class="glass-panel p-6 rounded-3xl border border-indigo-500/30 space-y-4">
-          <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="lock" class="w-4 h-4"></i> Master Reports Portal (OTP Protected)
-          </h3>
-          
-          <div id="otp-lock-screen" class="space-y-3">
-            <p class="text-xs text-slate-300">Is tab ko kholne ke liye Admin se 6-digit OTP generate karwayein:</p>
-            <button onclick="requestReportOTP()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition">
-              Request OTP From Admin
-            </button>
-            <div id="otp-input-row" class="hidden flex gap-2 pt-2">
-              <input type="text" id="entered-otp" maxlength="6" placeholder="6-digit OTP" class="glass-input px-3 py-2 rounded-xl text-xs font-mono tracking-widest w-36" />
-              <button onclick="verifyReportOTP()" class="px-4 py-2 bg-emerald-600 text-white font-bold rounded-xl text-xs">
-                Unlock
-              </button>
-            </div>
-          </div>
-
-          <div id="otp-unlocked-screen" class="hidden space-y-3 pt-3 border-t border-white/10">
-            <h4 class="text-xs font-bold text-white uppercase">Aapke Lifetime GPS Verified Plans</h4>
-            <div id="member-gps-logs-list" class="space-y-2 text-xs max-h-48 overflow-y-auto"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Member Bottom Navigation Bar (Fixed for Mobile) -->
-      <div class="fixed bottom-3 left-3 right-3 sm:max-w-md sm:mx-auto z-40 glass-panel p-1.5 rounded-2xl border border-white/10 flex justify-between gap-1 shadow-2xl">
-        <button onclick="switchMemberTab('workspace')" id="mtab-workspace" class="flex-1 py-2 rounded-xl text-[10px] font-bold transition flex flex-col items-center gap-1 glass-tab-active">
-          <i data-lucide="layout-grid" class="w-4 h-4"></i> Work
-        </button>
-        <button onclick="switchMemberTab('diary')" id="mtab-diary" class="flex-1 py-2 rounded-xl text-[10px] font-bold transition flex flex-col items-center gap-1 text-slate-400 hover:text-white">
-          <i data-lucide="book-open" class="w-4 h-4"></i> Diary
-        </button>
-        <button onclick="switchMemberTab('sales')" id="mtab-sales" class="flex-1 py-2 rounded-xl text-[10px] font-bold transition flex flex-col items-center gap-1 text-slate-400 hover:text-white">
-          <i data-lucide="shopping-bag" class="w-4 h-4"></i> BV
-        </button>
-        <button onclick="switchMemberTab('toolkit')" id="mtab-toolkit" class="flex-1 py-2 rounded-xl text-[10px] font-bold transition flex flex-col items-center gap-1 text-slate-400 hover:text-white">
-          <i data-lucide="briefcase" class="w-4 h-4"></i> Toolkit
-        </button>
-        <button onclick="switchMemberTab('reports')" id="mtab-reports" class="flex-1 py-2 rounded-xl text-[10px] font-bold transition flex flex-col items-center gap-1 text-slate-400 hover:text-white">
-          <i data-lucide="lock" class="w-4 h-4"></i> Reports
-        </button>
-      </div>
-
-    </div>
-
+    <!-- MAIN ROLE SPECIFIC CONTAINER -->
+    <main id="dynamic-role-container" class="pt-6"></main>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- MODALS: ADMIN ACTIONS                                    -->
-  <!-- ======================================================== -->
+  <!-- MODAL: ADMIN EMERGENCY NEW DEVICE REGISTRATION -->
+  <div id="admin-device-reg-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-panel max-w-sm w-full p-6 sm:p-8 rounded-3xl space-y-4 border border-amber-500/30 text-center">
+      <div class="h-14 w-14 bg-amber-500/20 border border-amber-500/40 rounded-2xl flex items-center justify-center mx-auto text-amber-400">
+        <i data-lucide="smartphone" class="w-7 h-7"></i>
+      </div>
+      <h3 class="text-base font-black text-white uppercase">New Master Device Registration</h3>
+      <p class="text-xs text-slate-300">Admin ke 2 registered device slot full hain. Is naye device ko authorize karne ke liye apna <strong>Master Security PIN</strong> daalein:</p>
+      <input type="password" id="admin-override-pin" maxlength="4" placeholder="••••" class="glass-input w-full p-3 rounded-xl text-center text-xl font-mono tracking-widest text-amber-400" />
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeModal('admin-device-reg-modal')" class="flex-1 py-2.5 glass-card rounded-xl text-xs">Cancel</button>
+        <button onclick="confirmAdminDeviceOverride()" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs">Authorize Device</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- Modal: Add New Member -->
+  <!-- MODAL: ADD NEW MEMBER -->
   <div id="add-member-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
     <div class="glass-panel max-w-lg w-full p-6 sm:p-8 rounded-3xl space-y-4 border border-white/10">
       <div class="flex justify-between items-center border-b border-white/10 pb-3">
@@ -707,23 +216,11 @@
     </div>
   </div>
 
-  <!-- Modal: Bulk Target Setter -->
-  <div id="bulk-target-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="glass-panel max-w-sm w-full p-6 rounded-3xl space-y-4 border border-white/10 text-center">
-      <h3 class="text-sm font-bold text-white uppercase">Poori Team Ka Daily Target Set Karein</h3>
-      <input type="number" id="bulk-target-input" placeholder="e.g. 3 Plans" class="glass-input w-full p-3 rounded-xl text-center text-lg font-bold" />
-      <div class="flex gap-2">
-        <button onclick="closeModal('bulk-target-modal')" class="flex-1 py-2.5 glass-card rounded-xl text-xs">Cancel</button>
-        <button onclick="applyBulkTarget()" class="flex-1 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs">Set Target</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Full Member ID Drawer & Actions -->
+  <!-- MODAL: MEMBER ID DRAWER & RESET DEVICE -->
   <div id="member-drawer-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
     <div class="glass-panel max-w-md w-full p-6 sm:p-8 rounded-3xl space-y-4 border border-white/10">
       <div class="flex justify-between items-center border-b border-white/10 pb-3">
-        <h3 class="text-sm font-bold text-white uppercase">Member Profile Control</h3>
+        <h3 class="text-sm font-bold text-white uppercase">Member Profile & Security Control</h3>
         <button onclick="closeModal('member-drawer-modal')" class="text-slate-400 hover:text-white">✕</button>
       </div>
       <div class="flex items-center space-x-4">
@@ -732,11 +229,21 @@
           <h4 id="dr-name" class="text-base font-black text-white"></h4>
           <p class="text-xs text-slate-400">Phone: <span id="dr-phone"></span></p>
           <p class="text-xs text-slate-400">ID: <span id="dr-user" class="font-mono text-blue-400"></span></p>
+          <p class="text-[10px] text-slate-400 mt-1">Device Status: <span id="dr-device-status" class="font-bold"></span></p>
         </div>
       </div>
       <div class="grid grid-cols-2 gap-2 text-xs">
         <button onclick="drAddManualPlan()" class="p-2.5 bg-purple-600/20 text-purple-300 border border-purple-500/30 rounded-xl font-bold">+ Plan Add Karein</button>
         <button onclick="drDirectAddBV()" class="p-2.5 bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 rounded-xl font-bold">+ Direct Add BV</button>
+      </div>
+      <div class="p-3 rounded-xl glass-input flex items-center justify-between text-xs">
+        <div>
+          <span class="font-bold text-white block">Device Lock Control</span>
+          <span class="text-[10px] text-slate-400">Agar member ne phone badla hai</span>
+        </div>
+        <button onclick="drResetMemberDevice()" class="px-3 py-1.5 bg-amber-600/20 text-amber-300 border border-amber-500/30 rounded-lg font-bold text-[11px]">
+          Reset Device
+        </button>
       </div>
       <div class="flex gap-2 pt-2">
         <button id="dr-toggle-status-btn" class="flex-1 py-2 rounded-xl text-xs font-bold"></button>
@@ -745,7 +252,7 @@
     </div>
   </div>
 
-  <!-- Modal: Daily Target Popup on Member Login -->
+  <!-- MODAL: DAILY TARGET POPUP ON MEMBER LOGIN -->
   <div id="target-popup-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
     <div class="glass-panel max-w-sm w-full p-6 rounded-3xl text-center space-y-4 border border-blue-500/40">
       <div class="h-16 w-16 bg-blue-600/20 border border-blue-400/30 rounded-2xl flex items-center justify-center mx-auto text-blue-400">
@@ -759,11 +266,8 @@
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- JAVASCRIPT MASTER LOGIC & STORAGE ENGINE                 -->
-  <!-- ======================================================== -->
+  <!-- JAVASCRIPT SYSTEM ENGINE -->
   <script>
-    // State Store (localStorage based)
     let users = JSON.parse(localStorage.getItem("hmt_users")) || [];
     let pendingBV = JSON.parse(localStorage.getItem("hmt_pending_bv")) || [];
     let systemConfig = JSON.parse(localStorage.getItem("hmt_config")) || {
@@ -776,6 +280,28 @@
     };
     let currentSession = JSON.parse(localStorage.getItem("hmt_session")) || null;
     let selectedMemberId = null;
+    let pendingAdminAuthUser = null;
+
+    function getDeviceFingerprint() {
+      let devId = localStorage.getItem("hmt_dev_fingerprint");
+      if (!devId) {
+        const raw = [
+          navigator.userAgent,
+          screen.width + "x" + screen.height,
+          screen.colorDepth,
+          new Date().getTimezoneOffset(),
+          navigator.hardwareConcurrency || 4
+        ].join("__");
+        let hash = 0;
+        for (let i = 0; i < raw.length; i++) {
+          hash = ((hash << 5) - hash) + raw.charCodeAt(i);
+          hash |= 0;
+        }
+        devId = "DEV_" + Math.abs(hash) + "_" + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem("hmt_dev_fingerprint", devId);
+      }
+      return devId;
+    }
 
     function saveDB() {
       localStorage.setItem("hmt_users", JSON.stringify(users));
@@ -792,7 +318,6 @@
     function openModal(id) { document.getElementById(id).classList.remove("hidden"); }
     function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
 
-    // App Initialization
     function initApp() {
       const adminExists = users.some(u => u.role === "admin");
       document.getElementById("motivation-text-display").textContent = `"${systemConfig.motivation}"`;
@@ -802,8 +327,13 @@
         document.getElementById("login-section").classList.add("hidden");
         document.getElementById("dashboard-section").classList.add("hidden");
       } else if (currentSession) {
-        const fresh = users.find(u => u.id === currentSession.id) || currentSession;
-        showDashboard(fresh);
+        const fresh = users.find(u => u.id === currentSession.id);
+        if (fresh && fresh.status !== "Inactive") {
+          showDashboard(fresh);
+        } else {
+          saveSession(null);
+          location.reload();
+        }
       } else {
         document.getElementById("setup-section").classList.add("hidden");
         document.getElementById("login-section").classList.remove("hidden");
@@ -815,6 +345,7 @@
     // Admin Master Setup
     document.getElementById("setup-form").addEventListener("submit", (e) => {
       e.preventDefault();
+      const currentDev = getDeviceFingerprint();
       const admin = {
         id: "admin_" + Date.now(),
         name: document.getElementById("setup-name").value.trim(),
@@ -822,45 +353,102 @@
         city: document.getElementById("setup-city").value.trim(),
         username: document.getElementById("setup-username").value.trim().toLowerCase(),
         password: document.getElementById("setup-password").value.trim(),
+        securityPin: document.getElementById("setup-pin").value.trim(),
         role: "admin",
-        status: "Active"
+        status: "Active",
+        authorizedDevices: [currentDev]
       };
       users.push(admin);
       saveDB();
-      alert("Admin Master Setup complete!");
+      alert("Admin Master Setup complete! Device #1 registered.");
       showDashboard(admin);
     });
 
-    // Login Form
+    // Login Form with Device Verification
     document.getElementById("login-form").addEventListener("submit", (e) => {
       e.preventDefault();
+      const errBox = document.getElementById("login-error");
+      errBox.classList.add("hidden");
+
       const u = document.getElementById("login-username").value.trim().toLowerCase();
       const p = document.getElementById("login-password").value.trim();
+      const currentDev = getDeviceFingerprint();
 
       const user = users.find(item => item.username.toLowerCase() === u && item.password === p);
-      if (user) {
-        if (user.status === "Inactive") {
-          alert("Aapka account Admin dwara Block kiya gaya hai!");
+      if (!user) {
+        errBox.textContent = "Galat User ID ya Password! Kripya check karein.";
+        errBox.classList.remove("hidden");
+        return;
+      }
+      if (user.status === "Inactive") {
+        errBox.textContent = "Aapka account Blocked hai. Admin se sampark karein!";
+        errBox.classList.remove("hidden");
+        return;
+      }
+
+      // Admin Check (Max 2 Devices)
+      if (user.role === "admin") {
+        let authDevices = user.authorizedDevices || [];
+        if (authDevices.includes(currentDev)) {
+          showDashboard(user);
           return;
         }
-        document.getElementById("login-error").classList.add("hidden");
-        showDashboard(user);
-        if (user.role === "member") {
+        if (authDevices.length < 2) {
+          authDevices.push(currentDev);
+          user.authorizedDevices = authDevices;
+          saveDB();
+          alert(`Naya device authorize ho gaya! (Slot: ${authDevices.length}/2)`);
+          showDashboard(user);
+          return;
+        }
+        pendingAdminAuthUser = user;
+        openModal("admin-device-reg-modal");
+        return;
+      }
+
+      // Member Check (1 Device Lock)
+      if (user.role === "member") {
+        if (!user.boundDeviceId) {
+          user.boundDeviceId = currentDev;
+          saveDB();
+          showDashboard(user);
           document.getElementById("member-popup-target-val").textContent = user.target || "0";
           openModal("target-popup-modal");
+          return;
         }
-      } else {
-        document.getElementById("login-error").classList.remove("hidden");
+        if (user.boundDeviceId === currentDev) {
+          showDashboard(user);
+          document.getElementById("member-popup-target-val").textContent = user.target || "0";
+          openModal("target-popup-modal");
+          return;
+        } else {
+          errBox.textContent = "Device Mismatch: Aap apni ID kisi doosre phone me nahi chala sakte! Reset ke liye Admin se sampark karein.";
+          errBox.classList.remove("hidden");
+          return;
+        }
       }
     });
 
-    // Logout
+    function confirmAdminDeviceOverride() {
+      const pin = document.getElementById("admin-override-pin").value.trim();
+      if (pendingAdminAuthUser && pin === pendingAdminAuthUser.securityPin) {
+        const currentDev = getDeviceFingerprint();
+        pendingAdminAuthUser.authorizedDevices = [pendingAdminAuthUser.authorizedDevices[0], currentDev];
+        saveDB();
+        closeModal("admin-device-reg-modal");
+        alert("Purani secondary device replace karke naya device authorize ho gaya!");
+        showDashboard(pendingAdminAuthUser);
+      } else {
+        alert("Galat Master Security PIN!");
+      }
+    }
+
     document.getElementById("logout-btn").addEventListener("click", () => {
       saveSession(null);
       location.reload();
     });
 
-    // Switch Screens
+    // Dynamic Role DOM Injection
     function showDashboard(user) {
       saveSession(user);
       document.getElementById("setup-section").classList.add("hidden");
@@ -870,21 +458,347 @@
       document.getElementById("header-user-name").textContent = user.name;
       document.getElementById("header-user-role").textContent = user.role;
 
+      const container = document.getElementById("dynamic-role-container");
+      container.innerHTML = "";
+
       if (user.role === "admin") {
-        document.getElementById("admin-view").classList.remove("hidden");
-        document.getElementById("member-view").classList.add("hidden");
+        buildAdminDOM(container);
         renderAdminAll();
       } else {
-        document.getElementById("admin-view").classList.add("hidden");
-        document.getElementById("member-view").classList.remove("hidden");
+        buildMemberDOM(container, user);
         renderMemberWorkspace(user);
       }
       lucide.createIcons();
     }
 
-    // ==========================================
-    // ADMIN TAB SYSTEM
-    // ==========================================
+    function buildAdminDOM(container) {
+      container.className = "max-w-7xl mx-auto px-4 sm:px-8 space-y-6";
+      container.innerHTML = `
+        <div class="glass-panel p-1.5 rounded-2xl flex flex-wrap gap-1 border border-white/10">
+          <button onclick="switchAdminTab('radar')" id="atab-radar" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 glass-tab-active">
+            <i data-lucide="radar" class="w-4 h-4"></i> 1. Live Radar
+          </button>
+          <button onclick="switchAdminTab('roster')" id="atab-roster" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="users" class="w-4 h-4"></i> 2. Team Roster
+          </button>
+          <button onclick="switchAdminTab('approvals')" id="atab-approvals" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 text-slate-400 hover:text-white relative">
+            <i data-lucide="clock" class="w-4 h-4"></i> 3. Approvals
+            <span id="admin-pending-badge" class="hidden px-1.5 py-0.5 bg-amber-500 text-black font-extrabold rounded-full text-[10px]">0</span>
+          </button>
+          <button onclick="switchAdminTab('leaderboard')" id="atab-leaderboard" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="trophy" class="w-4 h-4"></i> 4. Leaderboard
+          </button>
+          <button onclick="switchAdminTab('settings')" id="atab-settings" class="flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="sliders" class="w-4 h-4"></i> 5. Settings
+          </button>
+        </div>
+
+        <div id="admin-content-radar" class="space-y-6">
+          <div id="admin-no-progress-alerts" class="space-y-2"></div>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card p-5 rounded-2xl">
+              <div class="text-[10px] uppercase font-bold text-slate-400">Total Team Size</div>
+              <div id="kpi-team-count" class="text-2xl font-black text-white mt-1">0</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+              <div class="text-[10px] uppercase font-bold text-purple-400">Today Plans Shown</div>
+              <div id="kpi-today-plans" class="text-2xl font-black text-purple-400 mt-1">0</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+              <div class="text-[10px] uppercase font-bold text-amber-400">Today DD Collected</div>
+              <div id="kpi-today-dd" class="text-2xl font-black text-amber-400 mt-1">₹0</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+              <div class="text-[10px] uppercase font-bold text-emerald-400">Approved Team BV</div>
+              <div id="kpi-total-bv" class="text-2xl font-black text-emerald-400 mt-1">0 BV</div>
+            </div>
+          </div>
+          <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
+            <h3 class="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="navigation-2" class="w-4 h-4"></i> Live Field GPS Activity Feed
+            </h3>
+            <div id="admin-gps-feed" class="space-y-2 text-xs max-h-56 overflow-y-auto"></div>
+          </div>
+        </div>
+
+        <div id="admin-content-roster" class="hidden space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <input type="text" id="roster-search" oninput="renderAdminRoster()" placeholder="Member naam ya city search karein..." class="glass-input flex-1 min-w-[240px] px-4 py-2.5 rounded-xl text-xs" />
+            <button onclick="openModal('add-member-modal')" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-blue-600/30 flex items-center gap-1.5">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> + Naya Member
+            </button>
+          </div>
+          <div class="glass-panel rounded-2xl overflow-hidden border border-white/10">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] font-bold border-b border-white/5">
+                  <tr>
+                    <th class="px-4 py-3.5">Member</th>
+                    <th class="px-4 py-3.5">ID / Phone</th>
+                    <th class="px-4 py-3.5">Target</th>
+                    <th class="px-4 py-3.5">Plans</th>
+                    <th class="px-4 py-3.5">DD (₹)</th>
+                    <th class="px-4 py-3.5">BV</th>
+                    <th class="px-4 py-3.5">Status</th>
+                    <th class="px-4 py-3.5 text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-roster-body" class="divide-y divide-white/5"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="admin-content-approvals" class="hidden space-y-6">
+          <div class="glass-panel p-6 rounded-3xl border border-amber-500/20 space-y-4">
+            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="clock" class="w-4 h-4"></i> Pending Product Sales & BV Queue
+            </h3>
+            <div id="admin-pending-bv-list" class="space-y-3"></div>
+          </div>
+          <div class="glass-panel p-6 rounded-3xl border border-indigo-500/20 space-y-3">
+            <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="key" class="w-4 h-4"></i> Active Master Report Unlock OTP
+            </h3>
+            <div class="p-4 rounded-xl glass-input flex items-center justify-between">
+              <span class="text-xs text-slate-300">Member Reports OTP:</span>
+              <span id="admin-active-otp-box" class="text-xl font-black font-mono text-emerald-400 px-4 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30">------</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="admin-content-leaderboard" class="hidden space-y-6">
+          <div id="leaderboard-poster" class="glass-panel p-6 sm:p-8 rounded-3xl border border-amber-500/30 space-y-6 text-center">
+            <h2 class="text-2xl font-black text-white uppercase tracking-wide">HEMANT TEAM CHAMPIONS</h2>
+            <p class="text-xs text-slate-400" id="leaderboard-date"></p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+              <div class="glass-card p-5 rounded-2xl">
+                <div class="text-2xl">🥇</div>
+                <div class="text-xs uppercase font-bold text-amber-400 mt-1">Top Closer</div>
+                <div id="podium-closer" class="text-sm font-extrabold text-white mt-1">-</div>
+                <div id="podium-closer-val" class="text-xs text-amber-300 font-mono mt-0.5">₹0</div>
+              </div>
+              <div class="glass-card p-5 rounded-2xl">
+                <div class="text-2xl">🥈</div>
+                <div class="text-xs uppercase font-bold text-purple-400 mt-1">Plan Machine</div>
+                <div id="podium-plans" class="text-sm font-extrabold text-white mt-1">-</div>
+                <div id="podium-plans-val" class="text-xs text-purple-300 font-mono mt-0.5">0 Plans</div>
+              </div>
+              <div class="glass-card p-5 rounded-2xl">
+                <div class="text-2xl">🥉</div>
+                <div class="text-xs uppercase font-bold text-emerald-400 mt-1">BV Leader</div>
+                <div id="podium-bv" class="text-sm font-extrabold text-white mt-1">-</div>
+                <div id="podium-bv-val" class="text-xs text-emerald-300 font-mono mt-0.5">0 BV</div>
+              </div>
+            </div>
+          </div>
+          <button onclick="exportLeaderboardJPG()" class="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs flex items-center gap-2">
+            <i data-lucide="image" class="w-4 h-4"></i> Download JPG Poster
+          </button>
+        </div>
+
+        <div id="admin-content-settings" class="hidden space-y-6">
+          <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
+            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Broadcast Motivation Line</h3>
+            <div class="flex gap-2">
+              <input type="text" id="motivation-input" placeholder="Naya sandesh yahan likhein..." class="glass-input flex-1 px-4 py-2.5 rounded-xl text-xs" />
+              <button onclick="updateMotivationQuote()" class="px-5 py-2.5 bg-amber-600 text-white font-bold rounded-xl text-xs">Broadcast</button>
+            </div>
+          </div>
+
+          <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
+            <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="shield-alert" class="w-4 h-4"></i> Authorized Master Devices (Max 2 Allowed)
+            </h3>
+            <div id="admin-device-list" class="space-y-2 text-xs"></div>
+          </div>
+
+          <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
+            <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Data & Backups</h3>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <button onclick="exportToCSV()" class="px-4 py-2.5 glass-card text-xs font-bold rounded-xl border border-white/10 flex items-center gap-1.5">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-400"></i> Export Excel (.CSV)
+              </button>
+              <button onclick="downloadJSONBackup()" class="px-4 py-2.5 glass-card text-xs font-bold rounded-xl border border-white/10 flex items-center gap-1.5">
+                <i data-lucide="download" class="w-4 h-4 text-blue-400"></i> Backup (.JSON)
+              </button>
+              <label class="px-4 py-2.5 glass-card text-xs font-bold rounded-xl border border-white/10 flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="upload" class="w-4 h-4 text-amber-400"></i> Restore
+                <input type="file" accept=".json" onchange="restoreJSONBackup(event)" class="hidden" />
+              </label>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildMemberDOM(container, user) {
+      container.className = "max-w-3xl mx-auto px-4 space-y-6 pb-20";
+      container.innerHTML = `
+        <div id="member-content-workspace" class="space-y-6">
+          <div class="glass-panel p-6 rounded-3xl border border-white/10 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <img id="member-disp-photo" src="${user.photo || 'https://via.placeholder.com/80'}" class="w-14 h-14 rounded-2xl object-cover border border-white/20 shadow-md" />
+              <div>
+                <h2 class="text-lg font-black text-white">${user.name}</h2>
+                <p class="text-[11px] text-slate-400">City: ${user.city} | ID: <span class="text-blue-400 font-mono font-bold">${user.username}</span></p>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] uppercase font-bold text-slate-400 block">Total BV</span>
+              <span id="member-disp-bv" class="text-lg font-black text-emerald-400 font-mono">${user.bv || 0} BV</span>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-3xl bg-gradient-to-r from-purple-900/40 to-blue-900/40 border border-purple-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+                <i data-lucide="navigation" class="w-4 h-4 text-purple-400"></i> Show Plan Location Punch
+              </h3>
+              <p class="text-xs text-slate-300 mt-0.5">Prospect ke paas pahunch kar punch karein (GPS Verified)</p>
+            </div>
+            <button onclick="memberPunchShowPlan()" class="w-full sm:w-auto px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl text-xs flex items-center justify-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4"></i> Show Plan Punch
+            </button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div class="glass-card p-4 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-bold text-slate-400">Today Target</span>
+              <div id="member-disp-target" class="text-xl font-black text-white mt-1">${user.target || 0}</div>
+            </div>
+            <div class="glass-card p-4 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-bold text-purple-400">Plans Done</span>
+              <div id="member-disp-plans" class="text-xl font-black text-purple-400 mt-1">${user.todayPlans || 0}</div>
+            </div>
+            <div class="glass-card p-4 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-bold text-amber-400">DD Received</span>
+              <div id="member-disp-dd" class="text-xl font-black text-amber-400 mt-1">₹${(user.todayDD || 0).toLocaleString("en-IN")}</div>
+            </div>
+          </div>
+
+          <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
+            <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="clipboard-pen" class="w-4 h-4"></i> Follow-up & DD Report
+            </h3>
+            <form id="member-daily-form" class="space-y-3">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-[10px] uppercase font-bold text-slate-400">Follow-ups Kiye</label>
+                  <input type="number" id="mem-input-followups" required min="0" placeholder="0" class="glass-input w-full p-2.5 rounded-xl text-xs mt-1" />
+                </div>
+                <div>
+                  <label class="text-[10px] uppercase font-bold text-slate-400">DD / Cash Amount (₹)</label>
+                  <input type="number" id="mem-input-dd" required min="0" placeholder="₹0" class="glass-input w-full p-2.5 rounded-xl text-xs mt-1" />
+                </div>
+              </div>
+              <textarea id="mem-input-notes" rows="2" placeholder="Summary notes..." class="glass-input w-full p-2.5 rounded-xl text-xs"></textarea>
+              <div class="flex gap-2">
+                <button type="submit" class="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs">Report Save Karein</button>
+                <button type="button" onclick="memberShareReportWhatsApp()" class="px-4 py-3 bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-bold flex items-center gap-1.5">
+                  <i data-lucide="share-2" class="w-4 h-4"></i> WhatsApp
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="glass-panel p-6 rounded-3xl border border-red-500/20 space-y-3">
+            <h3 class="text-xs font-bold text-red-400 uppercase tracking-wider">Aaj Kaam Nahi Hua? Reason Batayein</h3>
+            <form id="member-noprogress-form" class="space-y-3">
+              <select id="np-reason" class="glass-input w-full p-2.5 rounded-xl text-xs">
+                <option value="Health Issue / Beemar">Health Issue / Beemar</option>
+                <option value="Market / Area Band">Market / Area Band</option>
+                <option value="Customer Postponed Meeting">Customer Postponed Meeting</option>
+                <option value="Family Emergency">Family Emergency</option>
+              </select>
+              <input type="text" id="np-detail" required placeholder="Detail wajeh..." class="glass-input w-full p-2.5 rounded-xl text-xs" />
+              <button type="submit" class="px-4 py-2 bg-red-600/20 text-red-300 border border-red-500/30 rounded-xl text-xs font-bold">Submit Reason</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="member-content-diary" class="hidden space-y-6">
+          <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
+            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Pocket Prospect Diary (+ Lead)</h3>
+            <form id="add-prospect-form" class="space-y-3">
+              <div class="grid grid-cols-2 gap-2">
+                <input type="text" id="lead-name" required placeholder="Prospect Naam" class="glass-input p-2.5 rounded-xl text-xs" />
+                <input type="tel" id="lead-phone" required placeholder="Phone" class="glass-input p-2.5 rounded-xl text-xs" />
+              </div>
+              <input type="text" id="lead-city" placeholder="Area" class="glass-input w-full p-2.5 rounded-xl text-xs" />
+              <button type="submit" class="w-full py-2.5 bg-amber-600 text-white font-bold rounded-xl text-xs">+ Lead Save Karein</button>
+            </form>
+          </div>
+          <div class="glass-panel p-6 rounded-3xl border border-white/10 space-y-3">
+            <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Aapki Leads</h3>
+            <div id="member-prospects-list" class="space-y-2 text-xs"></div>
+          </div>
+        </div>
+
+        <div id="member-content-sales" class="hidden space-y-6">
+          <div class="glass-panel p-6 rounded-3xl border border-emerald-500/20 space-y-4">
+            <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Product Sale & BV Entry</h3>
+            <form id="member-sale-form" class="space-y-3">
+              <input type="text" id="sale-product" required placeholder="Product Ka Naam" class="glass-input w-full p-2.5 rounded-xl text-xs" />
+              <div class="grid grid-cols-2 gap-2">
+                <input type="number" id="sale-qty" required min="1" placeholder="Quantity" class="glass-input w-full p-2.5 rounded-xl text-xs" />
+                <input type="number" id="sale-bv" required min="1" placeholder="Total BV" class="glass-input w-full p-2.5 rounded-xl text-emerald-400 font-bold text-xs" />
+              </div>
+              <button type="submit" class="w-full py-3 bg-emerald-600 text-white font-bold rounded-xl text-xs">BV Approval Ke Liye Submit Karein</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="member-content-toolkit" class="hidden space-y-6">
+          <div id="visiting-card-canvas" class="glass-panel p-6 rounded-3xl border border-blue-500/30 text-center space-y-4">
+            <img src="${user.photo || 'https://via.placeholder.com/80'}" class="w-20 h-20 rounded-3xl object-cover border-2 border-blue-400 mx-auto" />
+            <h4 class="text-lg font-black text-white">${user.name}</h4>
+            <p class="text-xs text-slate-400">Mobile: ${user.phone} | ${user.city}</p>
+          </div>
+          <button onclick="exportVisitingCardJPG()" class="w-full py-3 bg-blue-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2">
+            <i data-lucide="image" class="w-4 h-4"></i> Download Visiting Card JPG
+          </button>
+        </div>
+
+        <div id="member-content-reports" class="hidden space-y-6">
+          <div class="glass-panel p-6 rounded-3xl border border-indigo-500/30 space-y-4">
+            <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Detailed History Portal</h3>
+            <div id="otp-lock-screen" class="space-y-3">
+              <button onclick="requestReportOTP()" class="px-4 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-xs">Request OTP From Admin</button>
+              <div id="otp-input-row" class="hidden flex gap-2 pt-2">
+                <input type="text" id="entered-otp" maxlength="6" placeholder="6-digit OTP" class="glass-input px-3 py-2 rounded-xl text-xs font-mono w-36" />
+                <button onclick="verifyReportOTP()" class="px-4 py-2 bg-emerald-600 text-white font-bold rounded-xl text-xs">Unlock</button>
+              </div>
+            </div>
+            <div id="otp-unlocked-screen" class="hidden space-y-3 pt-3 border-t border-white/10">
+              <h4 class="text-xs font-bold text-white uppercase">Lifetime GPS Verified Plans</h4>
+              <div id="member-gps-logs-list" class="space-y-2 text-xs max-h-48 overflow-y-auto"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fixed bottom-3 left-3 right-3 sm:max-w-md sm:mx-auto z-40 glass-panel p-1.5 rounded-2xl border border-white/10 flex justify-between gap-1 shadow-2xl">
+          <button onclick="switchMemberTab('workspace')" id="mtab-workspace" class="flex-1 py-2 rounded-xl text-[10px] font-bold flex flex-col items-center gap-1 glass-tab-active">
+            <i data-lucide="layout-grid" class="w-4 h-4"></i> Work
+          </button>
+          <button onclick="switchMemberTab('diary')" id="mtab-diary" class="flex-1 py-2 rounded-xl text-[10px] font-bold flex flex-col items-center gap-1 text-slate-400">
+            <i data-lucide="book-open" class="w-4 h-4"></i> Diary
+          </button>
+          <button onclick="switchMemberTab('sales')" id="mtab-sales" class="flex-1 py-2 rounded-xl text-[10px] font-bold flex flex-col items-center gap-1 text-slate-400">
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i> BV
+          </button>
+          <button onclick="switchMemberTab('toolkit')" id="mtab-toolkit" class="flex-1 py-2 rounded-xl text-[10px] font-bold flex flex-col items-center gap-1 text-slate-400">
+            <i data-lucide="briefcase" class="w-4 h-4"></i> Toolkit
+          </button>
+          <button onclick="switchMemberTab('reports')" id="mtab-reports" class="flex-1 py-2 rounded-xl text-[10px] font-bold flex flex-col items-center gap-1 text-slate-400">
+            <i data-lucide="lock" class="w-4 h-4"></i> Reports
+          </button>
+        </div>
+      `;
+      setupMemberFormEvents();
+    }
+
+    // Admin Handlers
     function switchAdminTab(tab) {
       ['radar', 'roster', 'approvals', 'leaderboard', 'settings'].forEach(t => {
         document.getElementById(`admin-content-${t}`).classList.add('hidden');
@@ -899,16 +813,11 @@
 
     function renderAdminAll() {
       const members = users.filter(u => u.role === "member");
-      const totalPlans = members.reduce((sum, m) => sum + (Number(m.todayPlans) || 0), 0);
-      const totalDD = members.reduce((sum, m) => sum + (Number(m.todayDD) || 0), 0);
-      const totalBV = members.reduce((sum, m) => sum + (Number(m.bv) || 0), 0);
-
       document.getElementById("kpi-team-count").textContent = members.length;
-      document.getElementById("kpi-today-plans").textContent = totalPlans;
-      document.getElementById("kpi-today-dd").textContent = "₹" + totalDD.toLocaleString("en-IN");
-      document.getElementById("kpi-total-bv").textContent = totalBV.toLocaleString("en-IN") + " BV";
+      document.getElementById("kpi-today-plans").textContent = members.reduce((s, m) => s + (Number(m.todayPlans) || 0), 0);
+      document.getElementById("kpi-today-dd").textContent = "₹" + members.reduce((s, m) => s + (Number(m.todayDD) || 0), 0).toLocaleString("en-IN");
+      document.getElementById("kpi-total-bv").textContent = members.reduce((s, m) => s + (Number(m.bv) || 0), 0).toLocaleString("en-IN") + " BV";
 
-      // Pending BV Badge
       const pBadge = document.getElementById("admin-pending-badge");
       if (pendingBV.length > 0) {
         pBadge.textContent = pendingBV.length;
@@ -917,21 +826,18 @@
         pBadge.classList.add("hidden");
       }
 
-      // No Progress Red Alerts
       const alertContainer = document.getElementById("admin-no-progress-alerts");
       alertContainer.innerHTML = "";
-      const npList = members.filter(m => m.noProgressReason);
-      npList.forEach(m => {
+      members.filter(m => m.noProgressReason).forEach(m => {
         const div = document.createElement("div");
         div.className = "p-3 rounded-2xl bg-red-500/15 border border-red-500/30 flex items-center justify-between text-xs";
         div.innerHTML = `
-          <div><strong class="text-white">${m.name}</strong> ne kaam nahi kiya! Kaaran: <em>"${m.noProgressReason} - ${m.noProgressDetail || ''}"</em></div>
-          <a href="https://wa.me/91${m.phone}?text=Aaj%20aapka%20koi%20kaam%20nahi%20hua,%20kya%20issue%20hai%20batayein." target="_blank" class="px-2.5 py-1 bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-lg font-bold">Alert WhatsApp</a>
+          <div><strong class="text-white">${m.name}</strong>: <em>"${m.noProgressReason} - ${m.noProgressDetail || ''}"</em></div>
+          <a href="https://wa.me/91${m.phone}?text=Aaj%20aapka%20koi%20kaam%20nahi%20hua,%20kya%20issue%20hai%20batayein." target="_blank" class="px-2.5 py-1 bg-emerald-600/30 text-emerald-300 rounded-lg font-bold">Alert WhatsApp</a>
         `;
         alertContainer.appendChild(div);
       });
 
-      // GPS Live Feed
       const gpsFeed = document.getElementById("admin-gps-feed");
       gpsFeed.innerHTML = "";
       let hasFeed = false;
@@ -940,24 +846,51 @@
           hasFeed = true;
           const p = document.createElement("div");
           p.className = "p-2.5 rounded-xl glass-input flex justify-between items-center";
-          p.innerHTML = `<span><strong>${m.name}</strong>: ${log.text}</span> <a href="${log.link}" target="_blank" class="text-blue-400 font-bold underline">View GPS Pin</a>`;
+          p.innerHTML = `<span><strong>${m.name}</strong>: ${log.text}</span> <a href="${log.link}" target="_blank" class="text-blue-400 font-bold underline">View Pin</a>`;
           gpsFeed.prepend(p);
         });
       });
-      if (!hasFeed) gpsFeed.innerHTML = "<p class='text-slate-500 text-xs py-2 text-center'>Abhi tak koi GPS plan punch nahi hua hai.</p>";
+      if (!hasFeed) gpsFeed.innerHTML = "<p class='text-slate-500 text-xs py-2 text-center'>Koi GPS punch nahi hua.</p>";
 
       renderAdminRoster();
       renderAdminApprovals();
       renderLeaderboard();
+      renderAdminDevices();
       lucide.createIcons();
     }
 
+    function renderAdminDevices() {
+      const admin = users.find(u => u.role === "admin");
+      const list = document.getElementById("admin-device-list");
+      list.innerHTML = "";
+      (admin.authorizedDevices || []).forEach((dev, idx) => {
+        const div = document.createElement("div");
+        div.className = "p-3 rounded-xl glass-input flex items-center justify-between";
+        div.innerHTML = `
+          <div>
+            <span class="font-bold text-white">Device #${idx+1}</span>
+            <span class="text-[10px] text-slate-400 block font-mono">${dev}</span>
+          </div>
+          ${idx > 0 ? `<button onclick="adminRevokeDevice(${idx})" class="px-2.5 py-1 bg-red-600/20 text-red-300 border border-red-500/30 rounded-lg text-xs font-bold">Remove Slot</button>` : `<span class="text-emerald-400 font-bold text-xs">Primary Device</span>`}
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function adminRevokeDevice(idx) {
+      const admin = users.find(u => u.role === "admin");
+      admin.authorizedDevices.splice(idx, 1);
+      saveDB();
+      renderAdminDevices();
+      alert("Device slot revoke kar diya gaya! Ab aap naye device me login kar sakte hain.");
+    }
+
     function renderAdminRoster() {
-      const q = (document.getElementById("roster-search").value || "").toLowerCase();
+      const q = (document.getElementById("roster-search")?.value || "").toLowerCase();
       const members = users.filter(u => u.role === "member" && (u.name.toLowerCase().includes(q) || u.city.toLowerCase().includes(q)));
       const tbody = document.getElementById("admin-roster-body");
+      if (!tbody) return;
       tbody.innerHTML = "";
-
       members.forEach(m => {
         const tr = document.createElement("tr");
         tr.className = "hover:bg-white/5 transition";
@@ -984,10 +917,9 @@
 
     function renderAdminApprovals() {
       const list = document.getElementById("admin-pending-bv-list");
+      if (!list) return;
       list.innerHTML = "";
-      if (pendingBV.length === 0) {
-        list.innerHTML = "<p class='text-slate-500 text-xs py-4 text-center'>Koi pending BV approval nahi hai.</p>";
-      }
+      if (pendingBV.length === 0) list.innerHTML = "<p class='text-slate-500 text-xs py-4 text-center'>Koi pending approval nahi hai.</p>";
       pendingBV.forEach((item, idx) => {
         const div = document.createElement("div");
         div.className = "p-3.5 rounded-xl glass-input flex items-center justify-between text-xs";
@@ -1009,7 +941,6 @@
       pendingBV.splice(idx, 1);
       saveDB();
       renderAdminAll();
-      alert("BV Approved & Credited!");
     }
 
     function rejectBVItem(idx) {
@@ -1020,7 +951,8 @@
 
     function renderLeaderboard() {
       const members = users.filter(u => u.role === "member");
-      document.getElementById("leaderboard-date").textContent = "Date: " + new Date().toLocaleDateString();
+      const dateEl = document.getElementById("leaderboard-date");
+      if (dateEl) dateEl.textContent = "Date: " + new Date().toLocaleDateString();
 
       const topCloser = [...members].sort((a,b) => (b.todayDD || 0) - (a.todayDD || 0))[0];
       const topPlans = [...members].sort((a,b) => (b.todayPlans || 0) - (a.todayPlans || 0))[0];
@@ -1047,18 +979,9 @@
       saveDB();
       document.getElementById("motivation-text-display").textContent = `"${q}"`;
       document.getElementById("motivation-input").value = "";
-      alert("Motivation line team ke portal par live broadcast ho gayi!");
+      alert("Motivation broadcasted!");
     }
 
-    function toggleSystemFeature(feat, val) {
-      if (feat === 'gps') systemConfig.gpsEnabled = val;
-      if (feat === 'bv') systemConfig.bvEnabled = val;
-      if (feat === 'otp') systemConfig.otpEnabled = val;
-      if (feat === 'noprogress') systemConfig.noProgressEnabled = val;
-      saveDB();
-    }
-
-    // Add Member Action
     document.getElementById("add-member-form").addEventListener("submit", (e) => {
       e.preventDefault();
       const photoFile = document.getElementById("m-photo").files[0];
@@ -1075,6 +998,7 @@
           photo: b64 || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
           role: "member",
           status: "Active",
+          boundDeviceId: null,
           todayPlans: 0,
           todayFollowups: 0,
           todayDD: 0,
@@ -1086,7 +1010,7 @@
         closeModal("add-member-modal");
         document.getElementById("add-member-form").reset();
         renderAdminAll();
-        alert("Member ID successfully create ho gayi!");
+        alert("Member ban gaya!");
       };
       if (photoFile) {
         const r = new FileReader();
@@ -1095,16 +1019,6 @@
       } else proceed(null);
     });
 
-    function applyBulkTarget() {
-      const t = Number(document.getElementById("bulk-target-input").value) || 0;
-      users = users.map(u => u.role === "member" ? { ...u, target: t } : u);
-      saveDB();
-      closeModal("bulk-target-modal");
-      renderAdminAll();
-      alert(`Sabhi members ka target ${t} set ho gaya!`);
-    }
-
-    // Drawer Functions
     window.openMemberDrawer = function(id) {
       selectedMemberId = id;
       const m = users.find(u => u.id === id);
@@ -1114,15 +1028,12 @@
       document.getElementById("dr-name").textContent = m.name;
       document.getElementById("dr-phone").textContent = m.phone;
       document.getElementById("dr-user").textContent = m.username;
+      document.getElementById("dr-device-status").textContent = m.boundDeviceId ? "Locked to Device" : "Not Registered Yet";
+      document.getElementById("dr-device-status").className = m.boundDeviceId ? "text-emerald-400 font-bold" : "text-amber-400 font-bold";
 
       const btn = document.getElementById("dr-toggle-status-btn");
-      if (m.status === "Active") {
-        btn.className = "flex-1 py-2 bg-red-600/20 text-red-300 border border-red-500/30 rounded-xl font-bold";
-        btn.textContent = "Account Block Karein";
-      } else {
-        btn.className = "flex-1 py-2 bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 rounded-xl font-bold";
-        btn.textContent = "Account Unblock Karein";
-      }
+      btn.className = m.status === "Active" ? "flex-1 py-2 bg-red-600/20 text-red-300 rounded-xl font-bold" : "flex-1 py-2 bg-emerald-600/20 text-emerald-300 rounded-xl font-bold";
+      btn.textContent = m.status === "Active" ? "Block Account" : "Unblock Account";
       btn.onclick = () => {
         users = users.map(u => u.id === id ? { ...u, status: u.status === 'Active' ? 'Inactive' : 'Active' } : u);
         saveDB();
@@ -1131,6 +1042,13 @@
       };
       openModal("member-drawer-modal");
     };
+
+    function drResetMemberDevice() {
+      users = users.map(u => u.id === selectedMemberId ? { ...u, boundDeviceId: null } : u);
+      saveDB();
+      openMemberDrawer(selectedMemberId);
+      alert("Member device reset ho gaya! Ab member naye phone me login kar sakega.");
+    }
 
     function drAddManualPlan() {
       const c = prompt("Kitne plans jodne hain?", "1");
@@ -1151,16 +1069,14 @@
     }
 
     function drChangePassword() {
-      const np = prompt("Naya Password likhein:");
+      const np = prompt("Naya Password:");
       if (!np) return;
       users = users.map(u => u.id === selectedMemberId ? { ...u, password: np } : u);
       saveDB();
-      alert("Password badal diya gaya!");
+      alert("Password updated!");
     }
 
-    // ==========================================
-    // MEMBER TAB SYSTEM
-    // ==========================================
+    // Member Handlers
     function switchMemberTab(tab) {
       ['workspace', 'diary', 'sales', 'toolkit', 'reports'].forEach(t => {
         document.getElementById(`member-content-${t}`).classList.add('hidden');
@@ -1170,38 +1086,78 @@
       document.getElementById(`member-content-${tab}`).classList.remove('hidden');
       document.getElementById(`mtab-${tab}`).classList.add('glass-tab-active');
       document.getElementById(`mtab-${tab}`).classList.remove('text-slate-400');
-      renderMemberWorkspace(currentSession);
+    }
+
+    function setupMemberFormEvents() {
+      document.getElementById("member-daily-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const f = Number(document.getElementById("mem-input-followups").value) || 0;
+        const d = Number(document.getElementById("mem-input-dd").value) || 0;
+        const n = document.getElementById("mem-input-notes").value.trim();
+
+        users = users.map(u => u.id === currentSession.id ? { ...u, todayFollowups: f, todayDD: d, todayNotes: n, noProgressReason: null } : u);
+        currentSession.todayFollowups = f;
+        currentSession.todayDD = d;
+        currentSession.todayNotes = n;
+        saveDB();
+        saveSession(currentSession);
+        renderMemberWorkspace(currentSession);
+        alert("Report save ho gayi!");
+      });
+
+      document.getElementById("member-noprogress-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const r = document.getElementById("np-reason").value;
+        const d = document.getElementById("np-detail").value;
+        users = users.map(u => u.id === currentSession.id ? { ...u, noProgressReason: r, noProgressDetail: d } : u);
+        currentSession.noProgressReason = r;
+        currentSession.noProgressDetail = d;
+        saveDB();
+        saveSession(currentSession);
+        alert("Reason report ho gaya!");
+      });
+
+      document.getElementById("add-prospect-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const lead = {
+          name: document.getElementById("lead-name").value.trim(),
+          phone: document.getElementById("lead-phone").value.trim(),
+          city: document.getElementById("lead-city").value.trim()
+        };
+        users = users.map(u => u.id === currentSession.id ? { ...u, prospects: [...(u.prospects || []), lead] } : u);
+        currentSession.prospects = [...(currentSession.prospects || []), lead];
+        saveDB();
+        saveSession(currentSession);
+        document.getElementById("add-prospect-form").reset();
+        renderProspects();
+      });
+
+      document.getElementById("member-sale-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        pendingBV.push({
+          memberId: currentSession.id,
+          memberName: currentSession.name,
+          product: document.getElementById("sale-product").value.trim(),
+          qty: Number(document.getElementById("sale-qty").value) || 1,
+          bv: Number(document.getElementById("sale-bv").value) || 0
+        });
+        saveDB();
+        document.getElementById("member-sale-form").reset();
+        alert("Sale approval ke liye bhej di gayi!");
+      });
     }
 
     function renderMemberWorkspace(user) {
-      document.getElementById("member-disp-photo").src = user.photo || "https://via.placeholder.com/80";
-      document.getElementById("member-disp-name").textContent = user.name;
-      document.getElementById("member-disp-city").textContent = user.city;
-      document.getElementById("member-disp-user").textContent = user.username;
-      document.getElementById("member-disp-bv").textContent = (user.bv || 0) + " BV";
       document.getElementById("member-disp-target").textContent = user.target || 0;
       document.getElementById("member-disp-plans").textContent = user.todayPlans || 0;
       document.getElementById("member-disp-dd").textContent = "₹" + (user.todayDD || 0).toLocaleString("en-IN");
-
-      // Controls on/off
-      document.getElementById("member-gps-box").style.display = systemConfig.gpsEnabled ? "flex" : "none";
-      document.getElementById("member-bv-entry-box").style.display = systemConfig.bvEnabled ? "block" : "none";
-      document.getElementById("member-noprogress-box").style.display = systemConfig.noProgressEnabled ? "block" : "none";
-
-      // Visiting Card Data
-      document.getElementById("vc-photo").src = user.photo;
-      document.getElementById("vc-name").textContent = user.name;
-      document.getElementById("vc-phone").textContent = user.phone;
-      document.getElementById("vc-city").textContent = user.city;
-
+      document.getElementById("member-disp-bv").textContent = (user.bv || 0) + " BV";
       renderProspects();
-      lucide.createIcons();
     }
 
-    // GPS Show Plan Action
     function memberPunchShowPlan() {
       if (!navigator.geolocation) {
-        alert("Aapka device GPS support nahi karta!");
+        alert("GPS support nahi mila!");
         return;
       }
       navigator.geolocation.getCurrentPosition(pos => {
@@ -1209,126 +1165,53 @@
         const time = new Date().toLocaleTimeString();
         const entry = { text: `Plan #${(currentSession.todayPlans || 0) + 1} at ${time}`, link };
 
-        users = users.map(u => {
-          if (u.id === currentSession.id) {
-            return {
-              ...u,
-              todayPlans: (u.todayPlans || 0) + 1,
-              gpsLogs: [...(u.gpsLogs || []), entry]
-            };
-          }
-          return u;
-        });
+        users = users.map(u => u.id === currentSession.id ? {
+          ...u,
+          todayPlans: (u.todayPlans || 0) + 1,
+          gpsLogs: [...(u.gpsLogs || []), entry]
+        } : u);
 
         currentSession.todayPlans = (currentSession.todayPlans || 0) + 1;
         currentSession.gpsLogs = [...(currentSession.gpsLogs || []), entry];
         saveDB();
         saveSession(currentSession);
         renderMemberWorkspace(currentSession);
-        alert(`Location Verified! Total Plans Today: ${currentSession.todayPlans}`);
-      }, () => alert("Location permission allow karein!"));
+        alert(`Location Verified! Total Plans: ${currentSession.todayPlans}`);
+      }, () => alert("Location allow karein!"));
     }
-
-    // Member Daily Form
-    document.getElementById("member-daily-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const f = Number(document.getElementById("mem-input-followups").value) || 0;
-      const d = Number(document.getElementById("mem-input-dd").value) || 0;
-      const n = document.getElementById("mem-input-notes").value.trim();
-
-      users = users.map(u => u.id === currentSession.id ? { ...u, todayFollowups: f, todayDD: d, todayNotes: n, noProgressReason: null } : u);
-      currentSession.todayFollowups = f;
-      currentSession.todayDD = d;
-      currentSession.todayNotes = n;
-      saveDB();
-      saveSession(currentSession);
-      renderMemberWorkspace(currentSession);
-      alert("Follow-up & DD Report save ho gayi!");
-    });
-
-    function memberShareReportWhatsApp() {
-      const admin = users.find(u => u.role === "admin");
-      const msg = `*Daily Report: ${currentSession.name}*\nPlans Shown: ${currentSession.todayPlans || 0}\nFollow-ups: ${currentSession.todayFollowups || 0}\nDD / Cash: ₹${currentSession.todayDD || 0}\nTotal BV: ${currentSession.bv || 0} BV\nNotes: ${currentSession.todayNotes || 'None'}`;
-      window.open(`https://wa.me/91${admin.phone}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    function saveNextDayPlan() {
-      const c = document.getElementById("planner-client").value.trim();
-      const t = document.getElementById("planner-target").value;
-      if (!c) return;
-      alert(`Kal ka plan save ho gaya! First Meeting: ${c}, Target: ${t} plans.`);
-    }
-
-    document.getElementById("member-noprogress-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const r = document.getElementById("np-reason").value;
-      const d = document.getElementById("np-detail").value;
-      users = users.map(u => u.id === currentSession.id ? { ...u, noProgressReason: r, noProgressDetail: d } : u);
-      currentSession.noProgressReason = r;
-      currentSession.noProgressDetail = d;
-      saveDB();
-      saveSession(currentSession);
-      alert("Reason Admin ko report ho gaya!");
-    });
-
-    // Prospect Diary
-    document.getElementById("add-prospect-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const lead = {
-        name: document.getElementById("lead-name").value.trim(),
-        phone: document.getElementById("lead-phone").value.trim(),
-        city: document.getElementById("lead-city").value.trim(),
-        status: document.getElementById("lead-status").value
-      };
-      users = users.map(u => u.id === currentSession.id ? { ...u, prospects: [...(u.prospects || []), lead] } : u);
-      currentSession.prospects = [...(currentSession.prospects || []), lead];
-      saveDB();
-      saveSession(currentSession);
-      document.getElementById("add-prospect-form").reset();
-      renderProspects();
-    });
 
     function renderProspects() {
       const list = document.getElementById("member-prospects-list");
+      if (!list) return;
       list.innerHTML = "";
       (currentSession.prospects || []).forEach(lead => {
         const div = document.createElement("div");
         div.className = "p-3 rounded-xl glass-card flex items-center justify-between";
         div.innerHTML = `
-          <div><strong>${lead.name}</strong> (${lead.city || 'Agra'})<br/><span class="text-[10px] text-amber-400 font-bold">${lead.status}</span></div>
-          <a href="https://wa.me/91${lead.phone}?text=Namaste%20${encodeURIComponent(lead.name)},%20aapse%20milkar%20bohot%20accha%20laga." target="_blank" class="px-3 py-1 bg-emerald-600/30 text-emerald-300 rounded-lg text-xs font-bold">WhatsApp</a>
+          <div><strong>${lead.name}</strong> (${lead.city || 'Local'})</div>
+          <a href="https://wa.me/91${lead.phone}?text=Namaste%20${encodeURIComponent(lead.name)}" target="_blank" class="px-3 py-1 bg-emerald-600/30 text-emerald-300 rounded-lg text-xs font-bold">WhatsApp</a>
         `;
         list.appendChild(div);
       });
     }
 
-    // Sale Submit
-    document.getElementById("member-sale-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      pendingBV.push({
-        memberId: currentSession.id,
-        memberName: currentSession.name,
-        product: document.getElementById("sale-product").value.trim(),
-        qty: Number(document.getElementById("sale-qty").value) || 1,
-        bv: Number(document.getElementById("sale-bv").value) || 0
-      });
-      saveDB();
-      document.getElementById("member-sale-form").reset();
-      alert("Product sale approval ke liye Admin ke pass bhej di gayi hai!");
-    });
+    function memberShareReportWhatsApp() {
+      const admin = users.find(u => u.role === "admin");
+      const msg = `*Daily Report: ${currentSession.name}*\nPlans: ${currentSession.todayPlans || 0}\nFollow-ups: ${currentSession.todayFollowups || 0}\nDD: ₹${currentSession.todayDD || 0}\nBV: ${currentSession.bv || 0} BV\nNotes: ${currentSession.todayNotes || 'None'}`;
+      window.open(`https://wa.me/91${admin.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
 
-    // OTP Flow
     function requestReportOTP() {
       const code = Math.floor(100000 + Math.random() * 900000).toString();
       systemConfig.activeOTP = code;
       saveDB();
       document.getElementById("otp-input-row").classList.remove("hidden");
-      alert(`OTP Admin panel par trigger ho gaya hai! Admin se code lekar verify karein.`);
+      alert("Admin panel par OTP trigger ho gaya hai!");
     }
 
     function verifyReportOTP() {
       const entered = document.getElementById("entered-otp").value.trim();
-      if (entered === systemConfig.activeOTP || !systemConfig.otpEnabled) {
+      if (entered === systemConfig.activeOTP) {
         document.getElementById("otp-lock-screen").classList.add("hidden");
         document.getElementById("otp-unlocked-screen").classList.remove("hidden");
         const list = document.getElementById("member-gps-logs-list");
@@ -1365,7 +1248,7 @@
       const blob = new Blob([JSON.stringify({ users, pendingBV, systemConfig }, null, 2)], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `Hemant_Team_Master_Backup_${new Date().toISOString().slice(0,10)}.json`;
+      a.download = `Hemant_Team_Backup_${new Date().toISOString().slice(0,10)}.json`;
       a.click();
     }
 
@@ -1383,7 +1266,7 @@
             saveDB();
             location.reload();
           }
-        } catch { alert("Invalid backup file!"); }
+        } catch { alert("Invalid file!"); }
       };
       r.readAsText(file);
     }
